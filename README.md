@@ -15,4 +15,9 @@
  ela cria uma variavel chamada entrada e coloca nela os dados da funcao criar_banco, adicionando o arquivo do banco de dados.
  Se abre o arquivo, adiciona nele os dados tranforma a liguagem em utf-8 para poder usar caracteres especiais.
  Recorda o conteúdo salvo no arquivo.
- Quando o usuário chamar a funcao salvar_no_banco e coloccar os dados lá, os dados serão enviados para o banco de dados
+ Quando o usuário chamar a funcao salvar_no_banco e colocar os dados lá, os dados serão enviados para o banco de dados
+
+
+# funcao obter_dados
+
+Onde é colocado os input para adicionar os dados, depois os dados dessa funcao serão usados na funcao salvar_no_banco
