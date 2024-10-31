@@ -1,0 +1,2 @@
+treino: data: 20/08/2024, distância percorrida: 10 km, tempo: 60 min, localização: Centro, condições climáticas: Ensolarado
+competição: data: 15/02/2024, distância percorrida: 21, tempo: 120, localização: Praia, condições climáticas: Nublado
