@@ -1,3 +1,5 @@
 treino: data: 20/08/2024, distância percorrida: 10 km, tempo: 60 min, localização: Centro, condições climáticas: Ensolarado
-competição: data: 15/02/2024, distância percorrida: 21, tempo: 120, localização: Praia, condições climáticas: Nubladocompetição: data: 1, distância percorrida: 1 km, tempo: 1 min, localização: 1, condições climáticas: 1
-competição: data: 1, distância percorrida: 1 km, tempo: 1 min, localização: 1, condições climáticas: 1
+
+competição: data: 15/02/2024, distância percorrida: 21, tempo: 120, localização: Praia, condições climáticas: Nublado
+
+treino: data: 20/02/2000, distância percorrida: 39 km, tempo: 129 min, localização: Recife, condições climáticas: Boa

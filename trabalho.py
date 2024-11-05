@@ -1,3 +1,6 @@
+
+import random
+
 def criar_dados(treinoOUcompeticao, data, distancia, tempo, localizacao, condicaoClimatica):
     if treinoOUcompeticao == 'treino':
         return f"treino: data: {data}, distância percorrida: {distancia} km, tempo: {tempo} min, localização: {localizacao}, condições climáticas: {condicaoClimatica}\n"
@@ -20,11 +23,22 @@ def obter_dados():
     condicaoClimatica = input("Coloque a condição climática no tempo da atividade: \n")
     arquivo_nome="banco.txt"
     return treinoOUcompeticao, data, distancia, tempo, localizacao, condicaoClimatica, arquivo_nome
+# calcular velocidade média
+def vMedia(distancia,tempo):
+    vMedia = distancia/tempo
+# sorteio de treinos
+def sorteio_treinos(treino):
+    return random.choice(treino)
+treino =["Treino de Intervalo Curto","Treino de Velocidade em Tiro Curto","Treino de Intervalo Longo","Corrida Longa","Treino de Ritmo Sustentado","Treino de subida"]
+sorteado = sorteio_treinos(treino)
+  
 i = 0
 while i == 0:
     pergunta = int(input("Bota um numero: "))
     if pergunta == 1:
         dados = obter_dados()
         salvar_no_banco(*dados)    
-    elif pergunta == 2:
+    elif pergunta == 2 :
+        print("Elemento sorteado:",sorteio_treinos(treino))   
+    elif pergunta == 3:
         i+=1
