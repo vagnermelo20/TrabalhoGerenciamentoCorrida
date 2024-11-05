@@ -7,7 +7,7 @@ def salvar_no_banco(treinoOUcompeticao, data, distancia, tempo, localizacao, con
     entrada = criar_dados(treinoOUcompeticao, data, distancia, tempo, localizacao, condicaoClimatica)
     with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
         arquivo.write(entrada)
-
+i = 0
 # Exemplo de uso
 # salvar_no_banco("treino", "20/08/2024", 10, 60, "Centro", "Ensolarado")
 # salvar_no_banco("competicao", "15/02/2024", 21, 120, "Praia", "Nublado")
