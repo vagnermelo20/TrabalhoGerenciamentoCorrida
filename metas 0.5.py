@@ -12,23 +12,35 @@ def Metas_pessoais():
         metas = ['a']
 
         if escolha == 1:
-            for meta in metas:
-                print(meta)
+            arquivo = open('metas.txt','r')
+            print(arquivo.read())
+            arquivo.close()
         
         elif escolha == 2: # Não está entrando na lista
             
             opção_2 = ''
 
             while opção_2 != 's':
-                    
-                nova_meta = str(input('Defina uma nova meta pessoal: '))
-                metas.append(nova_meta)
-                print('Nova meta definida!! Caso queira adiconar outra meta digite qualquer letra:  ')
-                print('Caso queira sair aperte a tecla "s" ')
-                opção_2 = input('Selecione uma opção: ')
+                try:
+                    nova_meta = str(input('Defina uma nova meta pessoal: '))
 
-                opção_2.lower()
-                
+                    nova_meta.capitalize()
+
+                    # linhas = arquivo.readlines() falta adicionar a função de checar se alguma meta foi repitida
+                    
+                    
+
+                    arquivo = open('metas.txt', 'a')
+                    arquivo.write(nova_meta + '\n')
+                    arquivo.close()
+
+                    print('Nova meta definida!! Caso queira adiconar outra meta digite qualquer letra:  ')
+                    print('Caso queira sair aperte a tecla "s" ')
+                    opção_2 = input('Selecione uma opção: ')
+
+                    opção_2.lower()
+                except:
+                    print('Digite uma meta válida')
 
         elif escolha == 3:
 
