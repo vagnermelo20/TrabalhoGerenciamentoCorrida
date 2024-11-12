@@ -19,10 +19,15 @@ def criar_dados(treinoOUcompeticao, data, distancia, tempo, localizacao, condica
         return f"treino: data: {data}, distância percorrida: {distancia}, tempo: {tempo}, localização: {localizacao}, condições climáticas: {condicaoClimatica}\n"
     elif treinoOUcompeticao == 'c':
         return f"competição: data: {data}, distância percorrida: {distancia}, tempo: {tempo}, localização: {localizacao}, condições climáticas: {condicaoClimatica}\n"
+    
 def salvar_no_banco(treinoOUcompeticao, data, distancia, tempo, localizacao, condicaoClimatica, arquivo_nome="banco.txt"):
     entrada = criar_dados(treinoOUcompeticao, data, distancia, tempo, localizacao, condicaoClimatica)
-    with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
-        arquivo.write(entrada)
+    try:
+        with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
+            arquivo.write(entrada)
+    except IOError as e:
+        print(f"Erro ao salvar no banco de dados: {e}")
+        return None
 
 def obter_dados():
     try:
@@ -39,26 +44,37 @@ def obter_dados():
 
         try:
             distancia = float(input("Escreva a distância em quilômetros: \n"))
+            if distancia <= 0:
+                raise ValueError("Erro: a distância deve ser um número positivo maior que zero. \n")
 
         except ValueError:
-            print("Erro: a distância deve ser um número. \n")
+            print("Erro: a distância deve ser um número positivo. \n")
             return None
 
         try:
             tempo = int(input("Coloque o tempo em minutos: \n"))
+            if tempo <= 0:
+                raise ValueError("Erro: o tempo deve ser um número positivo maior que zero. \n")
         except ValueError:
-            print("Erro: o tempo deve ser um número inteiro. \n")
+            print("Erro: o tempo deve ser um número inteiro e maior que zero. \n")
             return None
         
         localizacao = input("Coloque o nome do local: \n")
         if any(char.isdigit() for char in localizacao):
             print("Erro: a localização não deve conter números. \n")
             return None
+        if not localizacao.strip():
+            print("Erro: a localização não pode estar vazia. \n")
+            return None
 
         condicaoClimatica = input("Coloque a condição climática no tempo da atividade: \n")
         if any(char.isdigit() for char in condicaoClimatica):
             print("Erro: a condição climática não deve conter números. \n")
             return None
+        if not condicaoClimatica.strip():
+            print("Erro: a condição climática não pode estar vazia. \n")
+            return None
+        
         return treinoOUcompeticao, data, distancia, tempo, localizacao, condicaoClimatica, "banco.txt"
     except ValueError as e:
         print(f"Erro: {e} \n")
