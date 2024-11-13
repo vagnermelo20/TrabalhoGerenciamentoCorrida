@@ -18,9 +18,8 @@ def Metas_pessoais():
         metas = ['a']
 
         if escolha == 1:
-            arquivo = open('metas.txt','r')
-            print(arquivo.read())
-            arquivo.close()
+            for linha in metas_arquivo:
+                print(linha)
         
         elif escolha == 2:
             
@@ -31,8 +30,6 @@ def Metas_pessoais():
                     
                     nova_meta = str(input('Defina uma nova meta pessoal: '))
                     nova_meta.capitalize()
-
-                    # linhas = arquivo.readlines() falta adicionar a função de checar se alguma meta foi repitida
                     
                     arquivo = open('metas.txt','r')
                     metas_arquivo = arquivo.readlines()
@@ -57,6 +54,8 @@ def Metas_pessoais():
             opção_3 = ''
 
             while opção_3 != 's':
+                for linha in metas_arquivo:
+                    print(linha)
 
                 index_meta = int(input('Selecione a meta que deseja alterar: '))
                 nova_meta = input('Digite a nova meta: ')
@@ -76,13 +75,20 @@ def Metas_pessoais():
 
                 opção_3.lower()
 
-        elif escolha == 4: # parte faltando
+        elif escolha == 4:
                         
             opção_4 = ''
 
             while opção_4 != 's':
+                for linha in metas_arquivo:
+                    print(linha)
                 deletar = int(input('Selecione a meta que você deseja deletar: '))
-                metas.pop(deletar)
+                metas_arquivo.pop(deletar)
+                arquivo_alterar = open('metas.txt','w')
+                for linha in metas_arquivo:
+                    z = linha.strip()
+                    arquivo_alterar.write(f'{z} \n')
+                arquivo_alterar.close()
                 print('Meta deletada com sucesso!! Caso queira deletar outra meta digite qualquer letra:  ')
                 print('Caso queira sair aperte a tecla "s" ')
                 opção_4 = input('Selecione uma opção: ')
@@ -92,5 +98,3 @@ def Metas_pessoais():
         elif escolha == 5:
             print('Finalizando programa.')
             break        
-
-Metas_pessoais()
