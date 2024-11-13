@@ -1,6 +1,12 @@
 def Metas_pessoais():
     while True:
 
+        arquivo = open('metas.txt','r')
+        metas_arquivo = arquivo.readlines()
+        arquivo.close()
+        
+
+
         print('1. Visualizar as metas atuais: \n'
               '2. Definir novas metas: \n' 
               '3. Alterar uma meta: \n'
@@ -16,26 +22,30 @@ def Metas_pessoais():
             print(arquivo.read())
             arquivo.close()
         
-        elif escolha == 2: # Não está entrando na lista
+        elif escolha == 2:
             
             opção_2 = ''
 
             while opção_2 != 's':
                 try:
+                    
                     nova_meta = str(input('Defina uma nova meta pessoal: '))
-
                     nova_meta.capitalize()
 
                     # linhas = arquivo.readlines() falta adicionar a função de checar se alguma meta foi repitida
                     
+                    arquivo = open('metas.txt','r')
+                    metas_arquivo = arquivo.readlines()
+                    i = len(metas_arquivo)
+                    arquivo.close()
                     
 
                     arquivo = open('metas.txt', 'a')
-                    arquivo.write(nova_meta + '\n')
+                    arquivo.write('\n')
+                    arquivo.write(f'{i}. {nova_meta}')
                     arquivo.close()
 
-                    print('Nova meta definida!! Caso queira adiconar outra meta digite qualquer letra:  ')
-                    print('Caso queira sair aperte a tecla "s" ')
+                    print('Nova meta definida!! Caso queira adiconar outra meta digite qualquer letra, Caso queira sair aperte a tecla "s":   ')
                     opção_2 = input('Selecione uma opção: ')
 
                     opção_2.lower()
@@ -48,13 +58,16 @@ def Metas_pessoais():
 
             while opção_3 != 's':
 
-                for meta in metas:
-                    print(meta)
-
                 index_meta = int(input('Selecione a meta que deseja alterar: '))
                 nova_meta = input('Digite a nova meta: ')
 
-                metas[index_meta] = nova_meta
+                metas_arquivo[index_meta] = ((f'{index_meta}. ') + nova_meta )
+
+                arquivo_alterar = open('metas.txt','w')
+                for linha in metas_arquivo:
+                    z = linha.strip()
+                    arquivo_alterar.write(f'{z} \n')
+                arquivo_alterar.close()
 
                 print('Meta alterada com sucesso!! Caso queira alterar outra meta digite qualquer letra:  ')
                 print('Caso queira sair aperte a tecla "s" ')
@@ -63,13 +76,13 @@ def Metas_pessoais():
 
                 opção_3.lower()
 
-        elif escolha == 4:
+        elif escolha == 4: # parte faltando
                         
             opção_4 = ''
 
             while opção_4 != 's':
                 deletar = int(input('Selecione a meta que você deseja deletar: '))
-                metas.pop(deletar+1)
+                metas.pop(deletar)
                 print('Meta deletada com sucesso!! Caso queira deletar outra meta digite qualquer letra:  ')
                 print('Caso queira sair aperte a tecla "s" ')
                 opção_4 = input('Selecione uma opção: ')
