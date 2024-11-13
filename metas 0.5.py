@@ -4,8 +4,6 @@ def Metas_pessoais():
         arquivo = open('metas.txt','r')
         metas_arquivo = arquivo.readlines()
         arquivo.close()
-        
-
 
         print('1. Visualizar as metas atuais: \n'
               '2. Definir novas metas: \n' 
@@ -14,8 +12,6 @@ def Metas_pessoais():
               '5. Fechar o programa: \n')
 
         escolha = int(input('Selecione uma opção: '))
-
-        metas = ['a']
 
         if escolha == 1:
             for linha in metas_arquivo:
@@ -82,13 +78,16 @@ def Metas_pessoais():
             while opção_4 != 's':
                 for linha in metas_arquivo:
                     print(linha)
+
                 deletar = int(input('Selecione a meta que você deseja deletar: '))
                 metas_arquivo.pop(deletar)
+
                 arquivo_alterar = open('metas.txt','w')
                 for linha in metas_arquivo:
                     z = linha.strip()
                     arquivo_alterar.write(f'{z} \n')
                 arquivo_alterar.close()
+                
                 print('Meta deletada com sucesso!! Caso queira deletar outra meta digite qualquer letra:  ')
                 print('Caso queira sair aperte a tecla "s" ')
                 opção_4 = input('Selecione uma opção: ')
