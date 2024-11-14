@@ -96,6 +96,19 @@ def calcular_velocidade_media_ultimo_treino(arquivo_nome="banco.txt"):
             distancia_km = int(km_str) + int(m_str)
         else:
             distancia_km = int(distancia_str.split(" km")[0])
+            tempo_str = ultima_linha.split("tempo: ")[1].split(", localização:")[0] #16 h e 30 min
+        if "h" in tempo_str:
+            horas = tempo_str.split(" h")[0]
+            if "min" in tempo_str:
+                minutos = tempo_str.split("h e ")[1].split(" min")[0]
+                tempo_min = int(horas) * 60 + int(minutos)
+            else:
+                tempo_min = int(horas) * 60
+        else:
+            tempo_min = int(tempo_str.split(" min")[0])
+        horas=tempo_min/60
+        velocidade_media = calcular_velocidade_media(distancia_km, horas)
+        return velocidade_media  
     except (IOError, IndexError, ValueError) as e:
         print(f"Erro ao calcular a velocidade média do último treino: {e}")
 
