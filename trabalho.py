@@ -83,6 +83,22 @@ def calcular_velocidade_media(distancia_km, tempo_min):
     velocidade_media = distancia_km / tempo_min
     return velocidade_media
 
+def calcular_velocidade_media_ultimo_treino(arquivo_nome="banco.txt"):
+    try:
+
+        with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
+            ultima_linha = arquivo.readlines()[-1] #esse menos 1 é a ´tltima linha
+        distancia_str = ultima_linha.split("distância percorrida: ")[1].split(", tempo:")[0] #Pega o que vem depois de "distancia percorrida: " e o que vem antes de ", tempo":
+        #isso vira 7 km e 22 m
+        if "e" in distancia_str:
+            km_str = distancia_str.split(" km")[0]
+            m_str = distancia_str.split("e ")[1].split(" m")[0]
+            distancia_km = int(km_str) + int(m_str)
+        else:
+            distancia_km = int(distancia_str.split(" km")[0])
+    except (IOError, IndexError, ValueError) as e:
+        print(f"Erro ao calcular a velocidade média do último treino: {e}")
+
 def sorteio_treinos(velocidade):
     treinos = [
         "Treino de Intervalo Curto",
