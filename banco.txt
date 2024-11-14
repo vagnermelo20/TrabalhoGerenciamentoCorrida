@@ -1,1 +1,2 @@
 treino: data: 20/09/2000, distância percorrida: 34 km e 243 m, tempo: 7 h e 3 min, localização: Recife, condições climáticas: Bom
+treino: data: 09/09/2009, distância percorrida: 44 km, tempo: 2 h e 0 min, localização: sssds, condições climáticas: sdsd
