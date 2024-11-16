@@ -5,6 +5,11 @@ def Metas_pessoais():
         metas_arquivo = arquivo.readlines()
         arquivo.close()
 
+        arquivo = open('metas_concluidas.txt','r')
+        metas_arquivo_concluído = arquivo.readlines()
+        ii = len(metas_arquivo_concluído)
+        arquivo.close()
+
         print('1. Visualizar as metas atuais: \n'
               '2. Definir novas metas: \n' 
               '3. Alterar uma meta: \n'
@@ -92,9 +97,10 @@ def Metas_pessoais():
                         metas_arquivo.pop(deletar)
 
                         arquivo_alterar = open('metas.txt','w')
-                        for linha in metas_arquivo:
-                            z = linha.strip()
-                            arquivo_alterar.write(f'{z} \n')
+
+                        for indice, linha in enumerate(metas_arquivo):
+                            y = linha[3:].strip()
+                            arquivo_alterar.write(f'{indice}. {y} \n')
                         arquivo_alterar.close()
                         
                         print('Meta deletada com sucesso!! Caso queira deletar outra meta digite qualquer letra:  ')
@@ -102,6 +108,68 @@ def Metas_pessoais():
                         opção_4 = input('Selecione uma opção: ')
 
                         opção_4.lower()
+                    except ValueError:
+                        print('Por favor digite um número inteiro')
+                    except IndexError:
+                        print('Por favor digite um número contido na lista')
+
+            elif escolha == 5:
+                            
+                opção_5 = ''
+
+                while opção_5 != 's':
+                    for linha in metas_arquivo:
+                        print(linha)
+                    try:
+                        deletar = int(input('Selecione a meta que você deseja concluir: '))
+                        c = metas_arquivo[deletar]
+                        concluida = c[3:].strip()
+                        metas_arquivo.pop(deletar)
+
+                        arquivo_alterar = open('metas.txt','w')
+
+                        for indice, linha in enumerate(metas_arquivo):
+                            y = linha[3:].strip()
+                            arquivo_alterar.write(f'{indice}. {y} \n')
+                        arquivo_alterar.close()
+
+                        arquivo = open('metas_concluidas.txt', 'a')
+                        arquivo.write(f'{ii}. {concluida}\n')
+                        arquivo.close()
+
+                        print('Meta concluida com sucesso!! Caso queira concluir outra meta digite qualquer letra:  ')
+                        print('Caso queira sair aperte a tecla "s" ')
+
+                        opção_5 = input('Selecione uma opção: ')
+                        
+                    except:
+                        print('Valor inválido')
+
+            elif escolha == 6:
+                for linha in metas_arquivo_concluído:
+                    print(linha)
+
+            elif escolha == 7:
+                opção_7 = ''
+                while opção_7 != 's':
+                    for linha in metas_arquivo_concluído:
+                        print(linha)
+                    try:
+                        deletar_concluido = int(input('Selecione a meta que você deseja deletar: '))
+                        metas_arquivo_concluído.pop(deletar_concluido)
+
+                        arquivo_alterar = open('metas_concluidas.txt','w')
+
+                        for indice, linha in enumerate(metas_arquivo_concluído):
+                            l = linha[3:].strip()
+                            arquivo_alterar.write(f'{indice}. {l} \n')
+                        arquivo_alterar.close()
+                        
+                        print('Meta deletada com sucesso!! Caso queira deletar outra meta digite qualquer letra:  ')
+                        print('Caso queira sair aperte a tecla "s" ')
+                        opção_7 = input('Selecione uma opção: ')
+
+                        opção_7.lower()
                     except ValueError:
                         print('Por favor digite um número inteiro')
                     except IndexError:
