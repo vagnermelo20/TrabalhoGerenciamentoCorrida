@@ -1,7 +1,7 @@
 from datetime import datetime
 import random
 
-def criar_dados(treinoOUcompeticao, data, distancia, velocidade, tempo, localizacao, condicaoClimatica):
+def criar_dados(treinoOUcompeticao, data, distancia, tempo, localizacao, condicaoClimatica):
     if tempo >= 60:
         tempo = f'{tempo//60} h e {tempo - ((tempo//60) * 60)} min'
     else:
@@ -9,16 +9,15 @@ def criar_dados(treinoOUcompeticao, data, distancia, velocidade, tempo, localiza
 
     km = int(distancia)  # Parte inteira em quilômetros
     metros = int((distancia - km) * 1000)  # Parte inteira dos metros
-    velocidade=km/tempo
     if metros == 0:
         distancia_nome = f"{km} km"
     else:
         distancia_nome = f"{km} km e {metros} m"
 
     if treinoOUcompeticao == 't':
-        return f"treino: data: {data}, distância percorrida: {distancia_nome}, tempo: {tempo},Velocidade: {velocidade}, localização: {localizacao}, condições climáticas: {condicaoClimatica}\n"
+        return f"treino: data: {data}, distância percorrida: {distancia_nome}, tempo: {tempo}, localização: {localizacao}, condições climáticas: {condicaoClimatica}\n"
     elif treinoOUcompeticao == 'c':
-        return f"competição: data: {data}, distância percorrida: {distancia_nome}, tempo: {tempo},Velocidade: {velocidade}, localização: {localizacao}, condições climáticas: {condicaoClimatica}\n"
+        return f"competição: data: {data}, distância percorrida: {distancia_nome}, tempo: {tempo}, localização: {localizacao}, condições climáticas: {condicaoClimatica}\n"
     
 def salvar_no_banco(treinoOUcompeticao, data, distancia, tempo, localizacao, condicaoClimatica, arquivo_nome="banco.txt"):
     entrada = criar_dados(treinoOUcompeticao, data, distancia, tempo, localizacao, condicaoClimatica)
@@ -80,19 +79,52 @@ def obter_dados():
         print(f"Erro: {e} \n")
         return None
     
-# sorteio de treinos
-distancia_lista=[]
-distancia_lista.append(criar_dados.km)
-tempo=[]
-def sorteio_treinos(velocidade, treino):
-    if velocidade>5:
-        return random.choice(treino[:2])
-    elif velocidade<=5:
-        return random.choice(treino[2:5])
+def calcular_velocidade_media(distancia_km, tempo_min):
+    velocidade_media = distancia_km / tempo_min
+    return velocidade_media
 
-treinos = ["Treino de Intervalo Curto","Treino de Velocidade em Tiro Curto","Treino de Intervalo Longo","Corrida Longa","Treino de Ritmo Sustentado","Treino de subida"]
-treino_sorteado = sorteio_treinos(treinos)
-print("Treino sorteado:", treino_sorteado)
+def calcular_velocidade_media_ultimo_treino(arquivo_nome="banco.txt"):
+    try:
+
+        with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
+            ultima_linha = arquivo.readlines()[-1] #esse menos 1 é a ´tltima linha
+        distancia_str = ultima_linha.split("distância percorrida: ")[1].split(", tempo:")[0] #Pega o que vem depois de "distancia percorrida: " e o que vem antes de ", tempo":
+        #isso vira 7 km e 22 m
+        if "e" in distancia_str:
+            km_str = distancia_str.split(" km")[0]
+            m_str = distancia_str.split("e ")[1].split(" m")[0]
+            distancia_km = int(km_str) + int(m_str)
+        else:
+            distancia_km = int(distancia_str.split(" km")[0])
+            tempo_str = ultima_linha.split("tempo: ")[1].split(", localização:")[0] #16 h e 30 min
+        if "h" in tempo_str:
+            horas = tempo_str.split(" h")[0]
+            if "min" in tempo_str:
+                minutos = tempo_str.split("h e ")[1].split(" min")[0]
+                tempo_min = int(horas) * 60 + int(minutos)
+            else:
+                tempo_min = int(horas) * 60
+        else:
+            tempo_min = int(tempo_str.split(" min")[0])
+        horas=tempo_min/60
+        velocidade_media = calcular_velocidade_media(distancia_km, horas)
+        return velocidade_media  
+    except (IOError, IndexError, ValueError) as e:
+        print(f"Erro ao calcular a velocidade média do último treino: {e}")
+
+def sorteio_treinos(velocidade):
+    treinos = [
+        "Treino de Intervalo Curto",
+        "Treino de Velocidade em Tiro Curto",
+        "Treino de Intervalo Longo",
+        "Corrida Longa",
+        "Treino de Ritmo Sustentado",
+        "Treino de subida"
+    ]
+    if velocidade > 5:
+        return random.choice(treinos[:2])
+    else:
+        return random.choice(treinos[2:6])
   
 i = 0
 while i == 0:
@@ -106,7 +138,10 @@ while i == 0:
             else:
                 print("Dados não puderão ser salvos, tente novamente.\n")
         elif pergunta == 2:
-            print("Elemento sorteado:", sorteio_treinos(treinos))
+            velocidade_media_ultimo = calcular_velocidade_media_ultimo_treino()
+            if velocidade_media_ultimo is not None:
+                treino_sorteado = sorteio_treinos(velocidade_media_ultimo)
+                print("Treino sorteado:", treino_sorteado)
         elif pergunta == 3:
             i += 1
         else:
