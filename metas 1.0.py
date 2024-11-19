@@ -1,3 +1,7 @@
+import os
+
+os.system('cls')
+
 def Metas_pessoais():
     while True:
 
@@ -159,26 +163,31 @@ def Metas_pessoais():
                 while opção_7 != 's':
                     for linha in metas_arquivo_concluído:
                         print(linha)
-                    try:
-                        deletar_concluido = int(input('Selecione a meta que você deseja deletar: '))
-                        metas_arquivo_concluído.pop(deletar_concluido)
 
-                        arquivo_alterar = open('metas_concluidas.txt','w')
+                    if len(metas_arquivo) == 0:
+                        print('Nenhuma meta adicionada')
+                        break
+                    else:
+                        try:
+                            deletar_concluido = int(input('Selecione a meta que você deseja deletar: '))
+                            metas_arquivo_concluído.pop(deletar_concluido)
 
-                        for indice, linha in enumerate(metas_arquivo_concluído):
-                            l = linha[3:].strip()
-                            arquivo_alterar.write(f'{indice}. {l} \n')
-                        arquivo_alterar.close()
-                        
-                        print('Meta deletada com sucesso!! Caso queira deletar outra meta digite qualquer letra:  ')
-                        print('Caso queira sair aperte a tecla "s" ')
-                        opção_7 = input('Selecione uma opção: ')
+                            arquivo_alterar = open('metas_concluidas.txt','w')
 
-                        opção_7.lower()
-                    except ValueError:
-                        print('Por favor digite um número inteiro')
-                    except IndexError:
-                        print('Por favor digite um número contido na lista')
+                            for indice, linha in enumerate(metas_arquivo_concluído):
+                                l = linha[3:].strip()
+                                arquivo_alterar.write(f'{indice}. {l} \n')
+                            arquivo_alterar.close()
+                            
+                            print('Meta deletada com sucesso!! Caso queira deletar outra meta digite qualquer letra:  ')
+                            print('Caso queira sair aperte a tecla "s" ')
+                            opção_7 = input('Selecione uma opção: ')
+
+                            opção_7.lower()
+                        except ValueError:
+                            print('Por favor digite um número inteiro')
+                        except IndexError:
+                            print('Por favor digite um número contido na lista')
 
             elif escolha == 8:
                 print('Finalizando programa.')
