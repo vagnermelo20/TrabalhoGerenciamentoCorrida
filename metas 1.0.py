@@ -1,7 +1,3 @@
-import os
-
-os.system('cls')
-
 def Metas_pessoais():
     while True:
 
