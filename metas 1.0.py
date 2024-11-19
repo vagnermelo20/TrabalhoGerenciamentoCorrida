@@ -92,26 +92,31 @@ def Metas_pessoais():
                 while opção_4 != 's':
                     for linha in metas_arquivo:
                         print(linha)
-                    try:
-                        deletar = int(input('Selecione a meta que você deseja deletar: '))
-                        metas_arquivo.pop(deletar)
 
-                        arquivo_alterar = open('metas.txt','w')
+                    if len(metas_arquivo) == 0:
+                        print('Nenhuma meta adicionada')
+                        break
+                    else:
+                        try:
+                            deletar = int(input('Selecione a meta que você deseja deletar: '))
+                            metas_arquivo.pop(deletar)
 
-                        for indice, linha in enumerate(metas_arquivo):
-                            y = linha[3:].strip()
-                            arquivo_alterar.write(f'{indice}. {y} \n')
-                        arquivo_alterar.close()
-                        
-                        print('Meta deletada com sucesso!! Caso queira deletar outra meta digite qualquer letra:  ')
-                        print('Caso queira sair aperte a tecla "s" ')
-                        opção_4 = input('Selecione uma opção: ')
+                            arquivo_alterar = open('metas.txt','w')
 
-                        opção_4.lower()
-                    except ValueError:
-                        print('Por favor digite um número inteiro')
-                    except IndexError:
-                        print('Por favor digite um número contido na lista')
+                            for indice, linha in enumerate(metas_arquivo):
+                                y = linha[3:].strip()
+                                arquivo_alterar.write(f'{indice}. {y} \n')
+                            arquivo_alterar.close()
+                            
+                            print('Meta deletada com sucesso!! Caso queira deletar outra meta digite qualquer letra:  ')
+                            print('Caso queira sair aperte a tecla "s" ')
+                            opção_4 = input('Selecione uma opção: ')
+
+                            opção_4.lower()
+                        except ValueError:
+                            print('Por favor digite um número inteiro')
+                        except IndexError:
+                            print('Por favor digite um número contido na lista')
 
             elif escolha == 5:
                             
