@@ -421,7 +421,64 @@ def metas_pessoais():
         except ValueError:
             print('Por favor digite um número inteiro')
 
+def resumo_estatistico_treinos(arquivo_nome="banco.txt"):
+    try:
+        distancias = []
+        tempos = []
+        velocidades_medias = []
 
+        with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
+            linhas = arquivo.readlines()
+
+        for linha in linhas:
+            try:
+                # Extrair a distância
+                distancia_str = linha.split("distância percorrida: ")[1].split(", tempo:")[0]
+                if "e" in distancia_str:
+                    km_str, m_str = distancia_str.split(" km e ")
+                    distancia_km = int(km_str) + int(m_str.split(" m")[0]) / 1000
+                else:
+                    distancia_km = int(distancia_str.split(" km")[0])
+                distancias.append(distancia_km)
+
+                # Extrair o tempo
+                tempo_str = linha.split("tempo: ")[1].split(", localização:")[0]
+                if "h" in tempo_str:
+                    horas = int(tempo_str.split(" h")[0])
+                    minutos = int(tempo_str.split("h e ")[1].split(" min")[0])
+                    tempo_min = horas * 60 + minutos
+                else:
+                    tempo_min = int(tempo_str.split(" min")[0])
+                tempos.append(tempo_min)
+
+                # Calcular a velocidade média
+                velocidade_media = calcular_velocidade_media(distancia_km, tempo_min / 60)
+                velocidades_medias.append(velocidade_media)
+            except (IndexError, ValueError):
+                print(f"Erro ao processar a linha: {linha}")
+
+        if distancias and tempos:
+            maior_distancia = max(distancias)
+            menor_distancia = min(distancias)
+            maior_tempo = max(tempos)
+            menor_tempo = min(tempos)
+            velocidade_media_geral = sum(velocidades_medias) / len(velocidades_medias)
+
+            print("\nResumo Estatístico dos Treinos:")
+            print(f"Maior distância percorrida: {maior_distancia:.2f} km")
+            print(f"Menor distância percorrida: {menor_distancia:.2f} km")
+            print(f"Maior tempo gasto: {maior_tempo} min")
+            print(f"Menor tempo gasto: {menor_tempo} min")
+            print(f"Velocidade média geral: {velocidade_media_geral:.2f} km/h")
+        else:
+            print("Nenhum dado válido encontrado nos treinos.")
+
+    except IOError as e:
+        print(f"Erro ao acessar o arquivo: {e}")
+
+def gastoCaloricoTeste(velocidadeMedia, peso, min): #vm é em km/h
+    gastoCalorico = velocidadeMedia * peso * min * 0.0175
+    return gastoCalorico
 
 i = 0
 while i == 0:
@@ -477,8 +534,14 @@ while i == 0:
         elif pergunta == 6:
             print(metas_pessoais())
         elif pergunta == 7:
-            pass
+            resumo_estatistico_treinos ()
         elif pergunta == 8:
+            velocidadeMedia = float(input("Coloque a velocidade média em quilometros por hora\n"))
+            peso = float(input("Coloca o seu peso em quilogramas\n"))
+            minutos = int(input("Coloque quanto tempo em minutos que voce gastou na corrida\n"))
+            gastoCalorico = gastoCaloricoTeste(velocidadeMedia, peso, minutos)
+            print(f'houve um gasto calórico de {gastoCalorico} calorias')
+        elif pergunta == 9:
             i+=1
         else:
             print("Opção inválida. Tente novamente.\n")
