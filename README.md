@@ -1,25 +1,44 @@
-                                             # TrabalhoGerenciamentoCorrida
+#                                                    TrabalhoGerenciamentoCorrida
 
 Este trabalho é um sistema de gerenciamento de corrida.
 Ele consiste de várias funções que serão chamadas dentro de um while(while seria uma função pra fazer loop no python), nesse while a pessoa terá 9 opções: Poderá registrar os dados; fazer um treino aleátorio; deletar os dados; atualizar os dados, filtrar os treinos ou competições; conseguir um resumo estatistico dos treinos; fazer um resumo de gastos calórico;  fazer as metas pessoais; sair do loop
-Esse metas pessoais é especial porque nele também há um while com 8 opções: Pode visualizar as metas atuais; definir novas metas; alterar metas; deletar metas; concluir metas; checar metas concluídas; deletar metas concluídas; sair do loop.
-Todos os dados salvos nos arquivos são salvos em linhas individuais e numerados a partir do número 1. Toda a vez que um dado é deletado, os outros irão continuar na estrutura numerada. ex: 1. 
-    2.
-    3.
-    4.
-    5.
 
-Se deletar o 3: O 4 vira 3 e o 5 vira 4. Ficando assim
+
+    Demonstração:
+    
+![image](https://github.com/user-attachments/assets/75fd5ba1-2619-4d9f-b4d3-e753ab4313cb)
+
+
+Esse metas pessoais é especial porque nele também há um while com 8 opções: Pode visualizar as metas atuais; definir novas metas; alterar metas; deletar metas; concluir metas; checar metas concluídas; deletar metas concluídas; sair do loop.
+
+
+![image](https://github.com/user-attachments/assets/edd26541-adcf-43dd-a165-dd3006d1372c)
+
+
+Todos os dados salvos nos arquivos são salvos em linhas individuais e numerados a partir do número 1. Toda a vez que um dado é deletado, os outros irão continuar na estrutura numerada. ex: 
+
 
                                                         1.
                                                         2.
                                                         3.
                                                         4.
+                                                        5.
+
+
+                                                     Se deletar o 3: O 4 vira 3 e o 5 vira 4. Ficando assim
+            
+                                                        1.
+                                                        2.
+                                                     4->3.
+                                                     5->4.
                 
-                                                    # Dentro do programa principal
+#                                                   Dentro do programa principal
 
 Será feito uma pergunta para você digitar um número. Esse número pode ser de 1 a 9, qualquer coisa digitada que não seja isso, será considerado incorreto.
 Sempre que você reponder algo, voce pode escolher clicar 1 para sair do loop
+
+![image](https://github.com/user-attachments/assets/8b52aeac-f81d-4d6a-8324-fbdb35181c8d)
+
 
 Se for colocado 1: Você irá adicionar novos dados no sistema. Você será perguntado se quer colocar 't' para Treino ou 'c' para competição (Qualquer outra coisa é inválido), você será perguntado para escrever a distância em quilometros(Pode ser inteiro ou decimal), o tempo em minutos(tem  que ser inteiro), o nome do local, a condição climática no tempo da atividade. Esse dados serão adicionados no arquivo "banco.txt".
 
