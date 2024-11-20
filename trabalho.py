@@ -263,7 +263,7 @@ def metas_pessoais():
 
         arquivo = open('metas_concluidas.txt','r', encoding='utf-8')
         metas_arquivo_concluído = arquivo.readlines()
-        linha_metas_concluidas = len(metas_arquivo_concluído)
+        linha_metas_concluidas = len(metas_arquivo_concluído) + 1 #Para usar com o indice começando em 1
         arquivo.close()
 
         print('1. Visualizar as metas atuais: \n'
@@ -297,7 +297,7 @@ def metas_pessoais():
                         else:
                             arquivo = open('metas.txt','r', encoding='utf-8')
                             metas_arquivo = arquivo.readlines()
-                            linha_metas = len(metas_arquivo)
+                            linha_metas = len(metas_arquivo) + 1
                             arquivo.close()
                             
 
@@ -333,7 +333,7 @@ def metas_pessoais():
                                 print("Saindo sem alterar metas ")
                                 opção_3 = 's'
                             else:
-                                metas_arquivo[index_meta] = ((f'{index_meta}. ') + nova_meta )
+                                metas_arquivo[index_meta - 1] = ((f'{index_meta}. ') + nova_meta )
 
                                 arquivo_alterar = open('metas.txt','w', encoding='utf-8')
                                 for linha in metas_arquivo:
@@ -365,11 +365,11 @@ def metas_pessoais():
                             print("saindo sem deletar metas")
                             opção_4 = 's'
                         else:
-                            metas_arquivo.pop(deletar)
+                            metas_arquivo.pop(deletar - 1)
 
                             arquivo_alterar = open('metas.txt','w', encoding='utf-8')
 
-                            for indice, linha in enumerate(metas_arquivo):
+                            for indice, linha in enumerate(metas_arquivo, start=1):
                                 Linha_sem_indice = linha[3:].strip()
                                 arquivo_alterar.write(f'{indice}. {Linha_sem_indice} \n') # Isso formata o código com os novos indices
                             arquivo_alterar.close()
@@ -397,13 +397,13 @@ def metas_pessoais():
                             print("Coloque '-1' para sair sem concluir metas")
                             opção_5 = 's'
                         else:
-                            c = metas_arquivo[concluir]
+                            c = metas_arquivo[concluir - 1]
                             concluida = c[3:].strip()
                             metas_arquivo.pop(concluir)
 
                             arquivo_alterar = open('metas.txt','w', encoding='utf-8')
 
-                            for indice, linha in enumerate(metas_arquivo):
+                            for indice, linha in enumerate(metas_arquivo, start=1):
                                 Linha_sem_indice = linha[3:].strip() # Isso tira " indeice."
                                 arquivo_alterar.write(f'{indice}. {Linha_sem_indice} \n') # Isso formata o código com os novos indices
                             arquivo_alterar.close()
@@ -435,11 +435,11 @@ def metas_pessoais():
                             opção_7 = 's'
                             print('Saindo sem deletar as metas concluídas')
                         else:
-                            metas_arquivo_concluído.pop(deletar_concluido)
+                            metas_arquivo_concluído.pop(deletar_concluido - 1)
 
                             arquivo_alterar = open('metas_concluidas.txt','w', encoding='utf-8')
 
-                            for indice, linha in enumerate(metas_arquivo_concluído):
+                            for indice, linha in enumerate(metas_arquivo_concluído, start=1):
                                 Linha_sem_indice = linha[3:].strip()
                                 arquivo_alterar.write(f'{indice}. {Linha_sem_indice} \n')
                             arquivo_alterar.close()
