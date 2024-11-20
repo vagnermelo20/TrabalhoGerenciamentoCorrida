@@ -1,3 +1,4 @@
-1. Ser campeão da champions
-2. C:/Python312/python.exe c:/Users/GIBELE/Desktop/TrabalhoCorridaOficial/TrabalhoGerenciamentoCorrida/trabalho.py
-3. C:/Python312/python.exe c:/Users/GIBELE/Desktop/TrabalhoCorridaOficial/TrabalhoGerenciamentoCorrida/trabalho.py
+0. corre
+1. andar
+2. brincar
+3. dançar

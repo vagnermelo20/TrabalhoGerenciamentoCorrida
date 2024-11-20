@@ -3,3 +3,4 @@ treino: data: 20/08/1992, distância percorrida: 38 km e 899 m, tempo: 6 h e 38 
 treino: data: 30/04/2000, distância percorrida: 41 km e 899 m, tempo: 1 h e 33 min, localização: italia, condições climáticas: neve
 treino: data: 20/09/2002, distância percorrida: 3 km, tempo: 1 h e 9 min, localização: recife, condições climáticas: ensolarado
 treino: data: 20/09/2000, distância percorrida: 20 km, tempo: 30 min, localização: Recife, condições climáticas: sol
+treino: data: 20/05/2000, distância percorrida: 29 km, tempo: 13 h e 20 min, localização: Recife, condições climáticas: neve

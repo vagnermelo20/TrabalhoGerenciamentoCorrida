@@ -59,17 +59,12 @@ def obter_dados():
             return None
         
         localizacao = input("Coloque o nome do local: \n")
-        if any(char.isdigit() for char in localizacao):
-            print("Erro: a localização não deve conter números. \n")
-            return None
+
         if not localizacao.strip():
             print("Erro: a localização não pode estar vazia. \n")
             return None
 
         condicaoClimatica = input("Coloque a condição climática no tempo da atividade: \n")
-        if any(char.isdigit() for char in condicaoClimatica):
-            print("Erro: a condição climática não deve conter números. \n")
-            return None
         if not condicaoClimatica.strip():
             print("Erro: a condição climática não pode estar vazia. \n")
             return None
@@ -235,6 +230,7 @@ def filtrar_treinos_por_tempo(arquivo_nome="banco.txt", ordem_decrescente=True):
     return [treino["linha"] for treino in treinos]
 
 def metas_pessoais():
+    print("Entrando nas metas pessoais ")
     while True:
 
         arquivo = open('metas.txt','r', encoding='utf-8')
@@ -335,8 +331,8 @@ def metas_pessoais():
                         arquivo_alterar = open('metas.txt','w')
 
                         for indice, linha in enumerate(metas_arquivo):
-                            y = linha[3:].strip()
-                            arquivo_alterar.write(f'{indice}. {y} \n')
+                            remover_inice = linha[3:].strip()
+                            arquivo_alterar.write(f'{indice}. {remover_inice} \n') # Isso formata o código com os novos indices
                         arquivo_alterar.close()
                         
                         print('Meta deletada com sucesso!! Caso queira deletar outra meta digite qualquer letra:  ')
@@ -365,8 +361,8 @@ def metas_pessoais():
                         arquivo_alterar = open('metas.txt','w')
 
                         for indice, linha in enumerate(metas_arquivo):
-                            y = linha[3:].strip()
-                            arquivo_alterar.write(f'{indice}. {y} \n')
+                            remover_inice = linha[3:].strip()
+                            arquivo_alterar.write(f'{indice}. {remover_inice} \n')
                         arquivo_alterar.close()
 
                         arquivo = open('metas_concluidas.txt', 'a')
@@ -397,8 +393,8 @@ def metas_pessoais():
                         arquivo_alterar = open('metas_concluidas.txt','w')
 
                         for indice, linha in enumerate(metas_arquivo_concluído):
-                            l = linha[3:].strip()
-                            arquivo_alterar.write(f'{indice}. {l} \n')
+                            remover_inice = linha[3:].strip()
+                            arquivo_alterar.write(f'{indice}. {remover_inice} \n')
                         arquivo_alterar.close()
                         
                         print('Meta deletada com sucesso!! Caso queira deletar outra meta digite qualquer letra:  ')
@@ -483,7 +479,7 @@ def gastoCaloricoTeste(velocidadeMedia, peso, min): #vm é em km/h
 i = 0
 while i == 0:
     try:
-        pergunta = int(input("Digite um número: \n1 para registrar dados\n2 para um treino aleátorio\n3 para deletar dados\n4 para atualizar dados\n5 para filtrar os treinos\n6 para fazer metas pessoais\n7 extra\n8 para sair\n"))
+        pergunta = int(input("Digite um número: \n1 para registrar dados\n2 para um treino aleátorio\n3 para deletar dados\n4 para atualizar dados\n5 para filtrar os treinos\n6 para fazer um resumo estatístico dos treinos\n7 para ver quantas calórias serão gastas em uma determinada corrida\n8 para ver as metas pessoais\n9 para sair\n"))
         if pergunta == 1:
             dados = obter_dados()
             if dados:
@@ -532,15 +528,15 @@ while i == 0:
                     print(treino)
         
         elif pergunta == 6:
-            print(metas_pessoais())
-        elif pergunta == 7:
             resumo_estatistico_treinos ()
-        elif pergunta == 8:
+        elif pergunta == 7:
             velocidadeMedia = float(input("Coloque a velocidade média em quilometros por hora\n"))
             peso = float(input("Coloca o seu peso em quilogramas\n"))
             minutos = int(input("Coloque quanto tempo em minutos que voce gastou na corrida\n"))
             gastoCalorico = gastoCaloricoTeste(velocidadeMedia, peso, minutos)
             print(f'houve um gasto calórico de {gastoCalorico} calorias')
+        elif pergunta == 8:
+            metas_pessoais()
         elif pergunta == 9:
             i+=1
         else:
