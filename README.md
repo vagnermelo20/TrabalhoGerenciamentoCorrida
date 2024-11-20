@@ -18,19 +18,14 @@ Esse metas pessoais é especial porque nele também há um while com 8 opções:
 Todos os dados salvos nos arquivos são salvos em linhas individuais e numerados a partir do número 1. Toda a vez que um dado é deletado, os outros irão continuar na estrutura numerada. ex: 
 
 
-                                                        1.
-                                                        2.
-                                                        3.
-                                                        4.
-                                                        5.
+![image](https://github.com/user-attachments/assets/3bbd02d1-b546-4b09-832a-3a8a27970898)
 
 
-                                                     Se deletar o 3: O 4 vira 3 e o 5 vira 4. Ficando assim
+
+  Se deletar o 3: O 4 vira 3 e o 5 vira 4. Ficando assim
             
-                                                        1.
-                                                        2.
-                                                     4->3.
-                                                     5->4.
+![image](https://github.com/user-attachments/assets/e5b87101-d35c-4fa9-a97e-eb2a0238481a)
+                                                        
                 
 #                                                   Dentro do programa principal
 
@@ -50,6 +45,10 @@ se for colocado 4: você poderá escolher qual linha você quer atualizar, atual
 
 ser for colocado 5: você poderá escolher se quer filtrar os arquivos por tempo ou distância, colocando 1 ou 2. Depois de forma crescente ou decrescente, colocando 1 ou 2.
 
+![image](https://github.com/user-attachments/assets/13ac3a98-3920-41f9-94da-6ae0ce9ba421)
+
+
+
 se for colocado 6: Você terá um resumo dos treinos ou competições, que possuirá a maior distância percorrida, a menor distância percorrida, o maior tempo gasto, o menor tempo gasto e a velocidade média geral em km/h.
 
 se for colocado 7: Você será perguntado sua velocidade média em km/h, seu peso em kg, quantos minutos voce gastou correndo. Ele dará uma estimativa de quantas calórias você perdeu nessa corrida.
@@ -61,6 +60,11 @@ se for colocado 8: Você irá para as metas pessoais, nelas você pode escolher 
 # dentro das metas pessoais
 Você poderá escolher de 1 a 8
 Voce terá as opções de escolher ou o 's' ou o '-1' pra sair do loop, pois a escolhas 2, 3, 4, 5, 7 são loops
+
+![image](https://github.com/user-attachments/assets/5d34bf87-4fcc-4765-b0ed-a115cf71395a)          ![image](https://github.com/user-attachments/assets/a597e5ff-5ba0-4ee6-90b4-9b31f2bbf114)        ![image](https://github.com/user-attachments/assets/01de379a-a9b4-4846-8426-227465b9c64d)
+
+
+
 se escolher 1: Você poderá visualizar as metas atuais.
 
 se escolher 2: Você poderá definir novas metas, que serão adicionadas no arquivo 'metas.txt'.
