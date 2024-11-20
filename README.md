@@ -1,5 +1,16 @@
 #                                                    TrabalhoGerenciamentoCorrida
 
+Trabalho feito pelos Alunos da turma de CC-A <br> <br>
+**Felipe Cavalcanti Melo Bezerra** <br>
+**Guilherme  Cireno Baltar**<br>
+**Leonardo de Queiroz Chavez Filho**<br>
+**Tomás de Aquino Vieira Jamacaru**<br>
+**Vagner Montenegro de melo**<br>
+
+
+
+
+
 Este trabalho é um sistema de gerenciamento de corrida.
 Ele consiste de várias funções que serão chamadas dentro de um while(while seria uma função pra fazer loop no python), nesse while a pessoa terá 9 opções: Poderá registrar os dados; fazer um treino aleátorio; deletar os dados; atualizar os dados, filtrar os treinos ou competições; conseguir um resumo estatistico dos treinos; fazer um resumo de gastos calórico;  fazer as metas pessoais; sair do loop
 
@@ -35,7 +46,11 @@ Sempre que você reponder algo, voce pode escolher clicar 1 para sair do loop
 ![image](https://github.com/user-attachments/assets/8b52aeac-f81d-4d6a-8324-fbdb35181c8d)
 
 
-Se for colocado 1: Você irá adicionar novos dados no sistema. Você será perguntado se quer colocar 't' para Treino ou 'c' para competição (Qualquer outra coisa é inválido), você será perguntado para escrever a distância em quilometros(Pode ser inteiro ou decimal), o tempo em minutos(tem  que ser inteiro), o nome do local, a condição climática no tempo da atividade. Esse dados serão adicionados no arquivo "banco.txt".
+Se for colocado 1: Você irá adicionar novos dados no sistema. Você será perguntado se quer colocar 't' para Treino ou 'c' para competição (Qualquer outra coisa é inválido), a data(tem que ser uma data real e na formatação que foi pedida que é **dd/mm/aaaa**, traduzido em dias, mês e anos), a distância em quilometros(Pode ser inteiro ou decimal), o tempo em minutos(tem que ser inteiro), o nome do local e a condição climática no tempo da atividade, esses 2 não podem ter números. Esse dados serão adicionados no arquivo "banco.txt". Esses dados serão tranformados e formatados para entrar no **banco.txt**, além de transformar os minutos em horas e minutos e os quilometros em quilometros e metros
+
+
+ex: ![image](https://github.com/user-attachments/assets/432b0725-2488-4329-9a88-15deda49c54f)
+
 
 se for colocado 2: Você irá para um treino aleátorio relacionado a velocidade média do último treino ou competição. Se ela for maior que 5 km/h: Ela será dada opções de treinos mais curtos, senão ela será dada opções de treinos mais longos.
 
@@ -82,3 +97,11 @@ se escolher 6: Você poderá visualizar as metas concluídas.
 se escolher 7: Você poderá deletar uma meta: Será escolhido o id de uma meta concluida e ela será deletada do arquivo 'metas_concluidas.txt'
 
 se escolher 8: Você irá sair do programa
+
+
+
+Diretórios usados: O trabalho possui 3 arquivos .txt, 2 arquivos.py, em que o metas.py é importado para o trabalho.py e um arquivo README.md, além de um arquivo git.ignore do python, que foi colocado caso fosse necessário
+
+![image](https://github.com/user-attachments/assets/963bffd2-b7ea-4731-81e4-11837f6ab2f5)
+
+
