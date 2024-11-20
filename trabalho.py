@@ -2,104 +2,125 @@ from datetime import datetime
 import random
 
 def criar_dados(treinoOUcompeticao, data, distancia, tempo, localizacao, condicaoClimatica):
-    if tempo >= 60:
-        tempo = f'{tempo//60} h e {tempo - ((tempo//60) * 60)} min'
-    else:
-        tempo = f'{tempo} min'
+    try:
+        if tempo >= 60:
+            tempo = f'{tempo // 60} h e {tempo - ((tempo // 60) * 60)} min'
+        else:
+            tempo = f'{tempo} min'
 
-    km = int(distancia)  # Parte inteira em quilômetros
-    metros = int((distancia - km) * 1000)  # Parte inteira dos metros
-    if metros == 0:
-        distancia_nome = f"{km} km"
-    else:
-        distancia_nome = f"{km} km e {metros} m"
+        try:
+            km = int(distancia)  # Parte inteira em quilômetros
+            metros = int((distancia - km) * 1000)  # Parte inteira dos metros
+        except ValueError:
+            print("Erro: A distância fornecida não é válida.")
+            return None
 
-    if treinoOUcompeticao == 't':
-        return f"treino: data: {data}, distância percorrida: {distancia_nome}, tempo: {tempo}, localização: {localizacao}, condições climáticas: {condicaoClimatica}\n"
-    elif treinoOUcompeticao == 'c':
-        return f"competição: data: {data}, distância percorrida: {distancia_nome}, tempo: {tempo}, localização: {localizacao}, condições climáticas: {condicaoClimatica}\n"
-    
+        if metros == 0:
+            distancia_nome = f"{km} km"
+        else:
+            distancia_nome = f"{km} km e {metros} m"
+
+        if treinoOUcompeticao == 't':
+            return f"treino: data: {data}, distância percorrida: {distancia_nome}, tempo: {tempo}, localização: {localizacao}, condições climáticas: {condicaoClimatica}\n"
+        elif treinoOUcompeticao == 'c':
+            return f"competição: data: {data}, distância percorrida: {distancia_nome}, tempo: {tempo}, localização: {localizacao}, condições climáticas: {condicaoClimatica}\n"
+        else:
+            raise ValueError("Erro: Tipo de atividade inválido.")
+    except ValueError as e:
+        print(f"Erro: {e}")
+    except Exception as e:
+        print(f"Erro inesperado ao criar os dados: {e}")
+
+
 def salvar_no_banco(treinoOUcompeticao, data, distancia, tempo, localizacao, condicaoClimatica, arquivo_nome="banco.txt"):
     try:
-        # Gera os dados formatados para a nova entrada
         entrada = criar_dados(treinoOUcompeticao, data, distancia, tempo, localizacao, condicaoClimatica)
+        if entrada is None:
+            return
 
-        # Lê as linhas existentes para determinar o próximo índice
         try:
             with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
                 linhas = arquivo.readlines()
             proximo_indice = len(linhas) + 1
         except FileNotFoundError:
-            # Caso o arquivo não exista, o índice começa em 1
             proximo_indice = 1
 
-        # Adiciona a nova entrada ao final do arquivo com o índice
-        with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
-            arquivo.write(f"{proximo_indice}. {entrada}")
-
-    except IOError as e:
-        print(f"Erro ao salvar no banco de dados: {e}")
+        try:
+            with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
+                arquivo.write(f"{proximo_indice}. {entrada}")
+        except IOError:
+            print(f"Erro ao acessar o arquivo '{arquivo_nome}'.")
+    except ValueError as e:
+        print(f"Erro ao salvar os dados no banco: {e}")
     except Exception as e:
-        print(f"Erro inesperado: {e}")
+        print(f"Erro inesperado ao salvar os dados no banco: {e}")
+
 
 def obter_dados():
     try:
         treinoOUcompeticao = input("Escreva 't' para treino e 'c' para competição: \n")
         if treinoOUcompeticao not in ['t', 'c']:
-            raise ValueError("Opção inválida: escolha 't' para treino ou 'c' para competicao. \n")
-        
-        data_input = input("Escreva a data no formato: dd/mm/aaaa \n")
+            raise ValueError("Opção inválida: escolha 't' para treino ou 'c' para competição.")
+
         try:
+            data_input = input("Escreva a data no formato: dd/mm/aaaa \n")
             data = datetime.strptime(data_input, "%d/%m/%Y").strftime("%d/%m/%Y")
         except ValueError:
-            print("Erro: A data deve estar no formato dd/mm/aaaa. \n")
+            print("Erro: A data deve estar no formato dd/mm/aaaa.")
             return None
 
         try:
             distancia = float(input("Escreva a distância em quilômetros: \n"))
             if distancia <= 0:
-                raise ValueError("Erro: a distância deve ser um número positivo maior que zero. \n")
-
+                raise ValueError("A distância deve ser um número positivo maior que zero.")
         except ValueError:
-            print("Erro: a distância deve ser um número positivo. \n")
+            print("Erro: A distância deve ser um número positivo.")
             return None
 
         try:
             tempo = int(input("Coloque o tempo em minutos: \n"))
             if tempo <= 0:
-                raise ValueError("Erro: o tempo deve ser um número positivo maior que zero. \n")
+                raise ValueError("O tempo deve ser um número positivo maior que zero.")
         except ValueError:
-            print("Erro: o tempo deve ser um número inteiro e maior que zero. \n")
+            print("Erro: O tempo deve ser um número inteiro maior que zero.")
             return None
-        
-        localizacao = input("Coloque o nome do local: \n")
 
+        localizacao = input("Coloque o nome do local: \n")
         if not localizacao.strip():
-            print("Erro: a localização não pode estar vazia. \n")
+            print("Erro: A localização não pode estar vazia.")
             return None
 
         condicaoClimatica = input("Coloque a condição climática no tempo da atividade: \n")
         if not condicaoClimatica.strip():
-            print("Erro: a condição climática não pode estar vazia. \n")
+            print("Erro: A condição climática não pode estar vazia.")
             return None
-        
+
         return treinoOUcompeticao, data, distancia, tempo, localizacao, condicaoClimatica, "banco.txt"
     except ValueError as e:
-        print(f"Erro: {e} \n")
+        print(f"Erro: {e}")
+        return None
+    except Exception as e:
+        print(f"Erro inesperado ao obter os dados: {e}")
         return None
 
-def ler_linhas_individuais(arquivo_nome="banco.txt"):
 
-    # Abrir o arquivo e ler todas as linhas
-    with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
-        texto = arquivo.readlines()
-        for linha in texto:
-            certo = print(linha, end="")
-        return certo
+def ler_linhas_individuais(arquivo_nome="banco.txt"):
+    try:
+        with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
+            texto = arquivo.readlines()
+            for linha in texto:
+                print(linha, end="")
+            return texto
+    except FileNotFoundError:
+        print(f"Erro: Arquivo '{arquivo_nome}' não encontrado.")
+    except IOError:
+        print(f"Erro ao acessar o arquivo '{arquivo_nome}'.")
+    except Exception as e:
+        print(f"Erro inesperado ao ler as linhas do arquivo: {e}")
+
 
 
 def deletar_linha(arquivo_nome="banco.txt", numero_linha=1):
-
     try:
         # Abrir o arquivo e ler todas as linhas
         with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
@@ -107,28 +128,33 @@ def deletar_linha(arquivo_nome="banco.txt", numero_linha=1):
 
         # Verificar se o número da linha está dentro do intervalo válido
         if numero_linha < 1 or numero_linha > len(linhas):
-            print("Número de linha inválido.")
+            print("Erro: Número de linha inválido.")
             return
 
-        # Remover a linha desejada (convertendo para índice de lista, subtraindo 1)
-        del linhas[numero_linha - 1]
+        try:
+            # Remover a linha desejada (convertendo para índice de lista, subtraindo 1)
+            del linhas[numero_linha - 1]
+        except IndexError:
+            print("Erro: Linha fora do intervalo válido para exclusão.")
+            return
 
-        # Reescrever o arquivo sem a linha especificada
-        with open(arquivo_nome, "w", encoding="utf-8") as arquivo:
-            for indice, linha in enumerate(linhas, start=1):
-                arquivo.write(f'{indice}. {linha.split(". ", 1)[1]}')
-
-        print(f"Linha {numero_linha} deletada com sucesso.")
-
+        try:
+            # Reescrever o arquivo sem a linha especificada
+            with open(arquivo_nome, "w", encoding="utf-8") as arquivo:
+                for indice, linha in enumerate(linhas, start=1):
+                    arquivo.write(f'{indice}. {linha.split(". ", 1)[1]}')
+            print(f"Linha {numero_linha} deletada com sucesso.")
+        except IOError:
+            print("Erro: Problema ao reescrever o arquivo após exclusão.")
     except FileNotFoundError:
         print(f"Erro: Arquivo '{arquivo_nome}' não encontrado.")
-    except IndexError:
-        print("Erro: Linha fora do intervalo.")
+    except IOError:
+        print(f"Erro ao acessar o arquivo '{arquivo_nome}'.")
     except Exception as e:
         print(f"Erro inesperado: {e}")
-    
-def atualizar_linha(arquivo_nome="banco.txt", numero_linha=1, novo_conteudo = 1):
 
+
+def atualizar_linha(arquivo_nome="banco.txt", numero_linha=1, novo_conteudo=1):
     try:
         # Abrir o arquivo e ler todas as linhas
         with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
@@ -136,135 +162,244 @@ def atualizar_linha(arquivo_nome="banco.txt", numero_linha=1, novo_conteudo = 1)
 
         # Verificar se o número da linha está dentro do intervalo válido
         if numero_linha < 1 or numero_linha > len(linhas):
-            print("Número de linha inválido.")
+            print("Erro: Número de linha inválido.")
             return
 
-        # Atualizar a linha desejada (convertendo para índice de lista, subtraindo 1)
-        linhas[numero_linha - 1] = f"{numero_linha}. {novo_conteudo}"
+        try:
+            # Atualizar a linha desejada (convertendo para índice de lista, subtraindo 1)
+            linhas[numero_linha - 1] = f"{numero_linha}. {novo_conteudo}"
+        except IndexError:
+            print("Erro: Linha fora do intervalo válido para atualização.")
+            return
 
-        # Reescrever o arquivo com a linha atualizada
-        with open(arquivo_nome, "w", encoding="utf-8") as arquivo:
-            for indice, linha in enumerate(linhas, start=1):
-                arquivo.write(f"{indice}. {linha.split('. ', 1)[1]}")
-
-        print(f"Linha {numero_linha} atualizada com sucesso.")
-
+        try:
+            # Reescrever o arquivo com a linha atualizada
+            with open(arquivo_nome, "w", encoding="utf-8") as arquivo:
+                for indice, linha in enumerate(linhas, start=1):
+                    arquivo.write(f"{indice}. {linha.split('. ', 1)[1]}")
+            print(f"Linha {numero_linha} atualizada com sucesso.")
+        except IOError:
+            print("Erro: Problema ao reescrever o arquivo após atualização.")
     except FileNotFoundError:
         print(f"Erro: Arquivo '{arquivo_nome}' não encontrado.")
-    except IndexError:
-        print("Erro: Linha fora do intervalo.")
+    except IOError:
+        print(f"Erro ao acessar o arquivo '{arquivo_nome}'.")
     except Exception as e:
         print(f"Erro inesperado: {e}")
-    
+
+
 def calcular_velocidade_media(distancia_km, tempo_min):
-    velocidade_media = distancia_km / tempo_min
-    return velocidade_media
+    try:
+        if tempo_min <= 0:
+            raise ValueError("Erro: O tempo deve ser maior que zero para calcular a velocidade média.")
+        velocidade_media = distancia_km / tempo_min
+        return velocidade_media
+    except ZeroDivisionError:
+        print("Erro: Divisão por zero ao calcular a velocidade média.")
+    except ValueError as e:
+        print(f"Erro: {e}")
+    except Exception as e:
+        print(f"Erro inesperado ao calcular a velocidade média: {e}")
+
 
 def calcular_velocidade_media_ultimo_treino(arquivo_nome="banco.txt"):
     try:
-
         with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
-            ultima_linha = arquivo.readlines()[-1] #esse menos 1 é a ´tltima linha
-        distancia_str = ultima_linha.split("distância percorrida: ")[1].split(", tempo:")[0] #Pega o que vem depois de "distancia percorrida: " e o que vem antes de ", tempo":
-        #isso vira 7 km e 22 m
-        if "e" in distancia_str:
-            km_str = distancia_str.split(" km")[0]
-            m_str = distancia_str.split("e ")[1].split(" m")[0]
-            distancia_km = int(km_str) + int(m_str)
-        else:
-            distancia_km = int(distancia_str.split(" km")[0])
-            tempo_str = ultima_linha.split("tempo: ")[1].split(", localização:")[0] #16 h e 30 min
-        if "h" in tempo_str:
-            horas = tempo_str.split(" h")[0]
-            if "min" in tempo_str:
-                minutos = tempo_str.split("h e ")[1].split(" min")[0]
-                tempo_min = int(horas) * 60 + int(minutos)
-            else:
-                tempo_min = int(horas) * 60
-        else:
-            tempo_min = int(tempo_str.split(" min")[0])
-        horas=tempo_min/60
-        velocidade_media = calcular_velocidade_media(distancia_km, horas)
-        return velocidade_media  
-    except (IOError, IndexError, ValueError) as e:
-        print(f"Erro ao calcular a velocidade média do último treino: {e}")
+            try:
+                ultima_linha = arquivo.readlines()[-1]  # Pega a última linha do arquivo
+            except IndexError:
+                print("Erro: O arquivo está vazio, não há dados para calcular a velocidade média.")
+                return None
+
+        try:
+            # Extrair a distância da última linha
+            distancia_str = ultima_linha.split("distância percorrida: ")[1].split(", tempo:")[0]
+            if "e" in distancia_str:  # Exemplo: "7 km e 22 m"
+                km_str = distancia_str.split(" km")[0]
+                m_str = distancia_str.split("e ")[1].split(" m")[0]
+                distancia_km = int(km_str) + int(m_str) / 1000
+            else:  # Exemplo: "7 km"
+                distancia_km = int(distancia_str.split(" km")[0])
+        except IndexError:
+            print("Erro: Formato inesperado ao extrair a distância.")
+            return None
+        except ValueError:
+            print("Erro: Distância contém valores inválidos.")
+            return None
+
+        try:
+            # Extrair o tempo da última linha
+            tempo_str = ultima_linha.split("tempo: ")[1].split(", localização:")[0]
+            if "h" in tempo_str:  # Exemplo: "16 h e 30 min"
+                horas = tempo_str.split(" h")[0]
+                if "min" in tempo_str:
+                    minutos = tempo_str.split("h e ")[1].split(" min")[0]
+                    tempo_min = int(horas) * 60 + int(minutos)
+                else:
+                    tempo_min = int(horas) * 60
+            else:  # Exemplo: "30 min"
+                tempo_min = int(tempo_str.split(" min")[0])
+        except IndexError:
+            print("Erro: Formato inesperado ao extrair o tempo.")
+            return None
+        except ValueError:
+            print("Erro: Tempo contém valores inválidos.")
+            return None
+
+        try:
+            # Calcular a velocidade média
+            horas = tempo_min / 60
+            if horas <= 0:
+                raise ZeroDivisionError("Erro: O tempo não pode ser zero ou negativo.")
+            velocidade_media = calcular_velocidade_media(distancia_km, horas)
+            return velocidade_media
+        except ZeroDivisionError as e:
+            print(e)
+            return None
+
+    except FileNotFoundError:
+        print(f"Erro: Arquivo '{arquivo_nome}' não encontrado.")
+    except IOError:
+        print(f"Erro ao acessar o arquivo '{arquivo_nome}'.")
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
 
 def sorteio_treinos(velocidade):
-    treinos = [
-        "Treino de Intervalo Curto",
-        "Treino de Velocidade em Tiro Curto",
-        "Treino de Intervalo Longo",
-        "Corrida Longa",
-        "Treino de Ritmo Sustentado",
-        "Treino de subida"
-    ]
-    if velocidade > 5:
-        return random.choice(treinos[:2])
-    else:
-        return random.choice(treinos[2:6])
+    try:
+        treinos = [
+            "Treino de Intervalo Curto",
+            "Treino de Velocidade em Tiro Curto",
+            "Treino de Intervalo Longo",
+            "Corrida Longa",
+            "Treino de Ritmo Sustentado",
+            "Treino de Subida"
+        ]
+        if velocidade > 5:
+            return random.choice(treinos[:2])
+        else:
+            return random.choice(treinos[2:6])
+    except ValueError:
+        print("Erro: A velocidade fornecida não é válida.")
+    except IndexError:
+        print("Erro: O índice de treino está fora do intervalo permitido.")
+    except Exception as e:
+        print(f"Erro inesperado ao sortear treinos: {e}")
+
 
 def chave_distancia(treino):
-    return treino["distancia_km"]
+    try:
+        return treino["distancia_km"]
+    except KeyError:
+        print("Erro: Chave 'distancia_km' não encontrada no treino.")
+    except TypeError:
+        print("Erro: O objeto fornecido não é um dicionário ou está mal formatado.")
+    except Exception as e:
+        print(f"Erro inesperado ao acessar a distância do treino: {e}")
+
+
 def chave_tempo(treino):
-    return treino["tempo_min"]
+    try:
+        return treino["tempo_min"]
+    except KeyError:
+        print("Erro: Chave 'tempo_min' não encontrada no treino.")
+    except TypeError:
+        print("Erro: O objeto fornecido não é um dicionário ou está mal formatado.")
+    except Exception as e:
+        print(f"Erro inesperado ao acessar o tempo do treino: {e}")
+
 
 def filtrar_treinos_por_distancia(arquivo_nome="banco.txt", ordem_decrescente=True):
-
     treinos = []
+    try:
+        with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
+            linhas = arquivo.readlines()
+            for linha in linhas:
+                try:
+                    distancia_str = linha.split("distância percorrida: ")[1].split(", tempo:")[0]
+                    if "e" in distancia_str:
+                        km_str, m_str = distancia_str.split(" km e ")
+                        distancia_km = int(km_str) + int(m_str.split(" m")[0]) / 1000
+                    else:
+                        distancia_km = int(distancia_str.split(" km")[0])
 
-    with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
-        linhas = arquivo.readlines()
-        for linha in linhas:
-            try:
-                distancia_str = linha.split("distância percorrida: ")[1].split(", tempo:")[0]
-                if "e" in distancia_str:
-                    km_str, m_str = distancia_str.split(" km e ")
-                    distancia_km = int(km_str) + int(m_str.split(" m")[0]) / 1000
-                else:
-                    distancia_km = int(distancia_str.split(" km")[0])
+                    treinos.append({"linha": linha, "distancia_km": distancia_km})
 
-                treinos.append({"linha": linha, "distancia_km": distancia_km})
-            except (IndexError, ValueError):
-                print(f"Erro ao processar a linha: {linha}")
+                except IndexError:
+                    print(f"Erro: Formato inesperado na linha (indexação fora do esperado): {linha}")
+                except ValueError:
+                    print(f"Erro: Valor inválido ao processar a distância na linha: {linha}")
+                except Exception as e:
+                    print(f"Erro inesperado ao processar a linha: {linha}. Detalhes: {e}")
 
-    treinos.sort(key=chave_distancia, reverse=ordem_decrescente)
-    return [treino["linha"] for treino in treinos]
+        treinos.sort(key=chave_distancia, reverse=ordem_decrescente)
+        return [treino["linha"] for treino in treinos]
+
+    except FileNotFoundError:
+        print(f"Erro: Arquivo '{arquivo_nome}' não encontrado.")
+    except IOError:
+        print(f"Erro ao acessar o arquivo '{arquivo_nome}'.")
+    except Exception as e:
+        print(f"Erro inesperado ao abrir ou ler o arquivo: {e}")
+        return []
 
 def filtrar_treinos_por_tempo(arquivo_nome="banco.txt", ordem_decrescente=True):
 
     treinos = []
+    try:
+        with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
+            linhas = arquivo.readlines()
+            for linha in linhas:
+                try:
+                    tempo_str = linha.split("tempo: ")[1].split(", localização:")[0]
+                    if "h" in tempo_str:
+                        horas = int(tempo_str.split(" h")[0])
+                        minutos = int(tempo_str.split("h e ")[1].split(" min")[0])
+                        tempo_min = horas * 60 + minutos
+                    else:
+                        tempo_min = int(tempo_str.split(" min")[0])
 
-    with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
-        linhas = arquivo.readlines()
-        for linha in linhas:
-            try:
-                tempo_str = linha.split("tempo: ")[1].split(", localização:")[0]
-                if "h" in tempo_str:
-                    horas = int(tempo_str.split(" h")[0])
-                    minutos = int(tempo_str.split("h e ")[1].split(" min")[0])
-                    tempo_min = horas * 60 + minutos
-                else:
-                    tempo_min = int(tempo_str.split(" min")[0])
+                    treinos.append({"linha": linha, "tempo_min": tempo_min})
+                except IndexError:
+                    print(f"Erro: Formato inesperado na linha (indexação fora do esperado): {linha}")
+                except ValueError:
+                    print(f"Erro: Valor inválido ao processar a distância na linha: {linha}")
+                except Exception as e:
+                    print(f"Erro inesperado ao processar a linha: {linha}. Detalhes: {e}")
 
-                treinos.append({"linha": linha, "tempo_min": tempo_min})
-            except (IndexError, ValueError):
-                print(f"Erro ao processar a linha: {linha}")
-
-    treinos.sort(key=chave_tempo, reverse=ordem_decrescente)
-    return [treino["linha"] for treino in treinos]
-
+        treinos.sort(key=chave_tempo, reverse=ordem_decrescente)
+        return [treino["linha"] for treino in treinos]
+    except FileNotFoundError:
+        print(f"Erro: Arquivo '{arquivo_nome}' não encontrado.")
+    except IOError:
+        print(f"Erro ao acessar o arquivo '{arquivo_nome}'.")
+    except Exception as e:
+        print(f"Erro inesperado ao abrir ou ler o arquivo: {e}")
+        return []        
 def metas_pessoais():
     print("Entrando nas metas pessoais ")
     while True:
+        try:
+            arquivo = open('metas.txt', 'r', encoding='utf-8')
+            metas_arquivo = arquivo.readlines()
+            arquivo.close()
+        except FileNotFoundError:
+            print("Erro: O arquivo 'metas.txt' não foi encontrado.")
+            return
+        except IOError:
+            print("Erro ao acessar o arquivo 'metas.txt'.")
+            return
 
-        arquivo = open('metas.txt','r', encoding='utf-8')
-        metas_arquivo = arquivo.readlines()
-        arquivo.close()
-
-        arquivo = open('metas_concluidas.txt','r', encoding='utf-8')
-        metas_arquivo_concluído = arquivo.readlines()
-        linha_metas_concluidas = len(metas_arquivo_concluído) + 1 #Para usar com o indice começando em 1
-        arquivo.close()
+        try:
+            arquivo = open('metas_concluidas.txt', 'r', encoding='utf-8')
+            metas_arquivo_concluído = arquivo.readlines()
+            linha_metas_concluidas = len(metas_arquivo_concluído) + 1  # Para usar com o índice começando em 1
+            arquivo.close()
+        except FileNotFoundError:
+            print("Erro: O arquivo 'metas_concluidas.txt' não foi encontrado.")
+            return
+        except IOError:
+            print("Erro ao acessar o arquivo 'metas_concluidas.txt'.")
+            return
 
         print('1. Visualizar as metas atuais: \n'
               '2. Definir novas metas: \n' 
@@ -276,216 +411,123 @@ def metas_pessoais():
               '8. Fechar o programa: \n')
         try:
             escolha = int(input('Selecione uma opção: '))
+        except ValueError:
+            print("Erro: Por favor, digite um número inteiro.")
+            continue
 
-            if escolha == 1:
+        if escolha == 1:
+            try:
                 for linha in metas_arquivo:
                     print(linha)
-                
                 input("\nEscreva qualquer coisa para sair\n")
                 print("Voltando ao menu\n")
-            
-            elif escolha == 2:
-                
-                opção_2 = ''
+            except Exception as e:
+                print(f"Erro inesperado ao exibir as metas: {e}")
 
-                while opção_2 != 's':
-                    try:
-                        # i é linhas_metas e ii é linhas_metas_concluidas, z é linha_formatada
-                        nova_meta = str(input('Defina uma nova meta pessoal: (Coloque "s" para sair sem adicionar uma meta)\n'))
-                        nova_meta.lower()
-                        if nova_meta == 's':
-                            print("Saindo sem definir metas ")
-                            opção_2 = 's'
-                        
-                        else:
-                            arquivo = open('metas.txt','r', encoding='utf-8')
+        elif escolha == 2:
+            opção_2 = ''
+            while opção_2 != 's':
+                try:
+                    nova_meta = str(input('Defina uma nova meta pessoal: (Coloque "s" para sair sem adicionar uma meta)\n')).lower()
+                    if nova_meta == 's':
+                        print("Saindo sem definir metas ")
+                        opção_2 = 's'
+                    else:
+                        try:
+                            arquivo = open('metas.txt', 'r', encoding='utf-8')
                             metas_arquivo = arquivo.readlines()
                             linha_metas = len(metas_arquivo) + 1
                             arquivo.close()
-                            
+                        except FileNotFoundError:
+                            linha_metas = 1
+                        except IOError:
+                            print("Erro ao acessar o arquivo 'metas.txt'.")
+                            break
 
+                        try:
                             arquivo = open('metas.txt', 'a', encoding='utf-8')
                             arquivo.write(f'{linha_metas}. {nova_meta}\n')
                             arquivo.close()
+                        except IOError:
+                            print("Erro ao gravar no arquivo 'metas.txt'.")
+                            break
 
-                            print('Nova meta definida!! Caso queira adiconar outra meta digite qualquer letra, Caso queira sair aperte a tecla "s":   ')
-                            opção_2 = input('Selecione uma opção: \n')
+                        print('Nova meta definida!! Caso queira adicionar outra meta digite qualquer letra, Caso queira sair aperte a tecla "s":')
+                        opção_2 = input('Selecione uma opção: \n').lower()
+                except Exception as e:
+                    print(f"Erro inesperado ao definir nova meta: {e}")
 
-                            opção_2.lower()
-                    except:
-                        print('Digite uma meta válida ou "s" para sair')
-
-            elif escolha == 3:
-
-                opção_3 = ''
-
-                while opção_3 != 's':
-
-                    try:    
-                        arquivo = open('metas.txt','r', encoding='utf-8')
-                        metas_arquivo = arquivo.readlines()
-                        arquivo.close()
-                        for linha in metas_arquivo:
-                            print(linha)
-                        index_meta = int(input('Selecione a meta que deseja alterar: (coloque "-1" para sair)\n'))
-                        if index_meta == -1:
+        elif escolha == 3:
+            opção_3 = ''
+            while opção_3 != 's':
+                try:
+                    for linha in metas_arquivo:
+                        print(linha)
+                    index_meta = int(input('Selecione a meta que deseja alterar: (coloque "-1" para sair)\n'))
+                    if index_meta == -1:
+                        print("Saindo sem alterar metas ")
+                        opção_3 = 's'
+                    else:
+                        nova_meta = input('Digite a nova meta: (coloque "s" para sair)\n').lower()
+                        if nova_meta == 's':
                             print("Saindo sem alterar metas ")
                             opção_3 = 's'
                         else:
-                            nova_meta = input('Digite a nova meta: (coloque "s" para sair)\n')
-    
-                            if nova_meta == 's' or nova_meta == 'S':
-                                print("Saindo sem alterar metas ")
-                                opção_3 = 's'
-                            else:
-                                metas_arquivo[index_meta - 1] = ((f'{index_meta}. ') + nova_meta )
-
-                                arquivo_alterar = open('metas.txt','w', encoding='utf-8')
+                            metas_arquivo[index_meta - 1] = f'{index_meta}. {nova_meta}'
+                            try:
+                                arquivo_alterar = open('metas.txt', 'w', encoding='utf-8')
                                 for linha in metas_arquivo:
-                                    linha_formatada = linha.strip()
-                                    arquivo_alterar.write(f'{linha_formatada} \n')
+                                    arquivo_alterar.write(f'{linha.strip()}\n')
                                 arquivo_alterar.close()
+                            except IOError:
+                                print("Erro ao atualizar o arquivo 'metas.txt'.")
+                                break
+                            print('Meta alterada com sucesso!! Caso queira alterar outra meta digite qualquer letra:')
+                            opção_3 = input('Caso queira sair aperte a tecla "s": \n').lower()
+                except ValueError:
+                    print('Erro: Por favor digite um número inteiro.')
+                except IndexError:
+                    print('Erro: Número fora do intervalo de metas disponíveis.')
+                except Exception as e:
+                    print(f"Erro inesperado ao alterar a meta: {e}")
 
-                                print('Meta alterada com sucesso!! Caso queira alterar outra meta digite qualquer letra:  ')
-                                print('Caso queira sair aperte a tecla "s" ')
-
-                                opção_3 = input('Selecione uma opção: ')
-
-                    except ValueError:
-                        print('Por favor digite um número inteiro')
-                    except IndexError:
-                        print('Por favor digite um número contido na linha')
-
-
-            elif escolha == 4:
-                            
-                opção_4 = ''
-
-                while opção_4 != 's':
-                    try:
-                        arquivo = open('metas.txt','r', encoding='utf-8')
-                        metas_arquivo = arquivo.readlines()
-                        arquivo.close()
-                        for linha in metas_arquivo:
-                            print(linha)
-                        deletar = int(input('Selecione a meta que você deseja deletar: (coloque -1 para sair)\n'))
-                        if deletar == -1:
-                            print("saindo sem deletar metas")
-                            opção_4 = 's'
-                        else:
-                            metas_arquivo.pop(deletar - 1)
-
-                            arquivo_alterar = open('metas.txt','w', encoding='utf-8')
-
-                            for indice, linha in enumerate(metas_arquivo, start=1):
-                                Linha_sem_indice = linha[3:].strip()
-                                arquivo_alterar.write(f'{indice}. {Linha_sem_indice} \n') # Isso formata o código com os novos indices
-                            arquivo_alterar.close()
-                            
-                            print('Meta deletada com sucesso!! Caso queira deletar outra meta digite qualquer letra:  ')
-                            print('Caso queira sair aperte a tecla "s" ')
-                            opção_4 = input('Selecione uma opção: \n')
-
-                            opção_4.lower()
-                    except ValueError:
-                        print('Por favor digite um número inteiro')
-                    except IndexError:
-                        print('Por favor digite um número contido na lista')
-
-            elif escolha == 5:
-                            
-                opção_5 = ''
-
-                while opção_5 != 's':
-                    arquivo = open('metas.txt','r', encoding='utf-8')
-                    metas_arquivo = arquivo.readlines()
-                    arquivo.close()
+        elif escolha == 4:
+            opção_4 = ''
+            while opção_4 != 's':
+                try:
                     for linha in metas_arquivo:
                         print(linha)
-
-                    arquivo = open('metas_concluidas.txt','r', encoding='utf-8')
-                    metas_arquivo_concluído = arquivo.readlines()
-                    linha_metas_concluidas = len(metas_arquivo_concluído) + 1
-                    arquivo.close()
-                    try:
-                        concluir = int(input("Selecione a meta que você deseja concluir: (Coloque '-1' para sair)\n"))
-                        if concluir == -1:
-                            print("Coloque '-1' para sair sem concluir metas")
-                            opção_5 = 's'
-                        else:
-                            
-                            linha_concluida = metas_arquivo[concluir - 1]
-                            Linha_sem_indice = linha_concluida[3:].strip()
-            
-                            metas_arquivo.pop(concluir - 1)
-
-                            arquivo_alterar = open('metas.txt','w', encoding='utf-8')
-
+                    deletar = int(input('Selecione a meta que você deseja deletar: (coloque -1 para sair)\n'))
+                    if deletar == -1:
+                        print("Saindo sem deletar metas")
+                        opção_4 = 's'
+                    else:
+                        metas_arquivo.pop(deletar - 1)
+                        try:
+                            arquivo_alterar = open('metas.txt', 'w', encoding='utf-8')
                             for indice, linha in enumerate(metas_arquivo, start=1):
-                                Linha_sem_indice_atual = linha[3:].strip()
-                                arquivo_alterar.write(f'{indice}. {Linha_sem_indice_atual} \n') # Isso formata o código com os novos indices
-                            arquivo_alterar.close()
-
-                            arquivo = open('metas_concluidas.txt', 'a', encoding='utf-8')
-                            arquivo.write(f'{linha_metas_concluidas}. {Linha_sem_indice}\n')
-                            arquivo.close()
-
-                            print('Meta concluida com sucesso!! Caso queira concluir outra meta digite qualquer letra:  ')
-                            print('Caso queira sair aperte a tecla "s" ')
-
-                            opção_5 = input('Selecione uma opção: ')
-                        
-                    except:
-                        print('Valor inválido')
-
-            elif escolha == 6:
-                for linha in metas_arquivo_concluído:
-                    print(linha)
-                input("\nEscreva qualquer coisa para sair\n")
-                print("Voltando ao menu\n")
-            elif escolha == 7:
-                opção_7 = ''
-                while opção_7 != 's':
-                    arquivo = open('metas_concluidas.txt','r', encoding='utf-8')
-                    metas_arquivo_concluído = arquivo.readlines()
-                    arquivo.close()
-
-                    for linha in metas_arquivo_concluído:
-                        print(linha)
-                    try:
-                        deletar_concluido = int(input('Selecione a meta que você deseja deletar: (Coloque "-1" para sair sem deletar metas)\n'))
-                        if deletar_concluido == -1:
-                            opção_7 = 's'
-                            print('Saindo sem deletar as metas concluídas')
-                        else:
-                            metas_arquivo_concluído.pop(deletar_concluido - 1)
-
-                            arquivo_alterar = open('metas_concluidas.txt','w', encoding='utf-8')
-
-                            for indice, linha in enumerate(metas_arquivo_concluído, start=1):
                                 Linha_sem_indice = linha[3:].strip()
                                 arquivo_alterar.write(f'{indice}. {Linha_sem_indice} \n')
                             arquivo_alterar.close()
-                            
-                            print('Meta deletada com sucesso!! Caso queira deletar outra meta digite qualquer letra:  ')
-                            print('Caso queira sair aperte a tecla "s" ')
-                            opção_7 = input('Selecione uma opção: \n')
+                        except IOError:
+                            print("Erro ao atualizar o arquivo 'metas.txt'.")
+                            break
+                        print('Meta deletada com sucesso!! Caso queira deletar outra meta digite qualquer letra:')
+                        opção_4 = input('Caso queira sair aperte a tecla "s": \n').lower()
+                except ValueError:
+                    print('Erro: Por favor digite um número inteiro.')
+                except IndexError:
+                    print('Erro: Número fora do intervalo de metas disponíveis.')
+                except Exception as e:
+                    print(f"Erro inesperado ao deletar a meta: {e}")
 
-                            opção_7.lower()
-                    except ValueError:
-                        print('Por favor digite um número inteiro')
-                    except IndexError:
-                        print('Por favor digite um número contido na lista')
+        elif escolha == 8:
+            print('Finalizando programa.')
+            break
 
-            elif escolha == 8:
-                print('Finalizando programa.')
-                break       
-            
-            else:
-                print('Escreva um número na lista: ')
-        
-        except ValueError:
-            print('Por favor digite um número inteiro')
+        else:
+            print('Escreva um número válido na lista: ')
+
 
 def resumo_estatistico_treinos(arquivo_nome="banco.txt"):
     try:
@@ -518,33 +560,56 @@ def resumo_estatistico_treinos(arquivo_nome="banco.txt"):
                 tempos.append(tempo_min)
 
                 # Calcular a velocidade média
-                velocidade_media = calcular_velocidade_media(distancia_km, tempo_min / 60)
-                velocidades_medias.append(velocidade_media)
-            except (IndexError, ValueError):
-                print(f"Erro ao processar a linha: {linha}")
+                try:
+                    velocidade_media = calcular_velocidade_media(distancia_km, tempo_min / 60)
+                    velocidades_medias.append(velocidade_media)
+                except ZeroDivisionError:
+                    print("Erro: Tentativa de dividir por zero ao calcular a velocidade média.")
+
+            except IndexError:
+                print(f"Erro: Problema ao acessar índices na linha: {linha}")
+            except ValueError:
+                print(f"Erro: Valor inválido encontrado ao processar a linha: {linha}")
+            except Exception as e:
+                print(f"Erro inesperado ao processar a linha: {e}")
 
         if distancias and tempos:
-            maior_distancia = max(distancias)
-            menor_distancia = min(distancias)
-            maior_tempo = max(tempos)
-            menor_tempo = min(tempos)
-            velocidade_media_geral = sum(velocidades_medias) / len(velocidades_medias)
+            try:
+                maior_distancia = max(distancias)
+                menor_distancia = min(distancias)
+                maior_tempo = max(tempos)
+                menor_tempo = min(tempos)
+                velocidade_media_geral = sum(velocidades_medias) / len(velocidades_medias)
 
-            print("\nResumo Estatístico dos Treinos:")
-            print(f"Maior distância percorrida: {maior_distancia:.2f} km")
-            print(f"Menor distância percorrida: {menor_distancia:.2f} km")
-            print(f"Maior tempo gasto: {maior_tempo} min")
-            print(f"Menor tempo gasto: {menor_tempo} min")
-            print(f"Velocidade média geral: {velocidade_media_geral:.2f} km/h")
+                print("\nResumo Estatístico dos Treinos:")
+                print(f"Maior distância percorrida: {maior_distancia:.2f} km")
+                print(f"Menor distância percorrida: {menor_distancia:.2f} km")
+                print(f"Maior tempo gasto: {maior_tempo} min")
+                print(f"Menor tempo gasto: {menor_tempo} min")
+                print(f"Velocidade média geral: {velocidade_media_geral:.2f} km/h")
+            except ZeroDivisionError:
+                print("Erro: Tentativa de dividir por zero ao calcular a velocidade média geral.")
         else:
             print("Nenhum dado válido encontrado nos treinos.")
 
+    except FileNotFoundError:
+        print(f"Erro: Arquivo '{arquivo_nome}' não encontrado.")
     except IOError as e:
         print(f"Erro ao acessar o arquivo: {e}")
+    except Exception as e:
+        print(f"Erro inesperado ao acessar o arquivo: {e}")
 
-def gastoCaloricoTeste(velocidadeMedia, peso, min): #vm é em km/h
-    gastoCalorico = velocidadeMedia * peso * min * 0.0175
-    return gastoCalorico
+
+def gastoCaloricoTeste(velocidadeMedia, peso, min):  # vm é em km/h
+    try:
+        if velocidadeMedia <= 0 or peso <= 0 or min <= 0:
+            raise ValueError("Velocidade, peso e tempo devem ser maiores que zero.")
+        gastoCalorico = velocidadeMedia * peso * min * 0.0175
+        return gastoCalorico
+    except ValueError as e:
+        print(f"Erro: {e}")
+    except Exception as e:
+        print(f"Erro inesperado ao calcular o gasto calórico: {e}")
 
 
 while True:
