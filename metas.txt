@@ -1,4 +1,6 @@
-0. corre
-1. andar
-2. brincar
-3. dan�ar
+0. correr 30 km 
+1. ser bicampeão da corrida das estações 
+2. participar de uma Maratona 
+3. Participar de 10 maratonas 
+4. correr 10  km em 1 hora 
+5. correr um Iron Man

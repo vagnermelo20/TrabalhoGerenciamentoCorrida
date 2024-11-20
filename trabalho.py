@@ -264,25 +264,29 @@ def metas_pessoais():
                 while opção_2 != 's':
                     try:
                         # i é linhas_metas e ii é linhas_metas_concluidas, z é linha_formatada
-                        nova_meta = str(input('Defina uma nova meta pessoal: '))
-                        nova_meta.capitalize()
+                        nova_meta = str(input('Defina uma nova meta pessoal: (Coloque "s" para sair sem adicionar uma meta)'))
+                        nova_meta.lower()
+                        if nova_meta == 's':
+                            print("Saindo sem definir metas ")
+                            opção_2 = 's'
                         
-                        arquivo = open('metas.txt','r')
-                        metas_arquivo = arquivo.readlines()
-                        linha_metas = len(metas_arquivo)
-                        arquivo.close()
-                        
+                        else:
+                            arquivo = open('metas.txt','r', encoding='utf-8')
+                            metas_arquivo = arquivo.readlines()
+                            linha_metas = len(metas_arquivo)
+                            arquivo.close()
+                            
 
-                        arquivo = open('metas.txt', 'a')
-                        arquivo.write(f'{linha_metas}. {nova_meta}\n')
-                        arquivo.close()
+                            arquivo = open('metas.txt', 'a', encoding='utf-8')
+                            arquivo.write(f'{linha_metas}. {nova_meta}\n')
+                            arquivo.close()
 
-                        print('Nova meta definida!! Caso queira adiconar outra meta digite qualquer letra, Caso queira sair aperte a tecla "s":   ')
-                        opção_2 = input('Selecione uma opção: ')
+                            print('Nova meta definida!! Caso queira adiconar outra meta digite qualquer letra, Caso queira sair aperte a tecla "s":   ')
+                            opção_2 = input('Selecione uma opção: ')
 
-                        opção_2.lower()
+                            opção_2.lower()
                     except:
-                        print('Digite uma meta válida')
+                        print('Digite uma meta válida ou "s" para sair')
 
             elif escolha == 3:
 
@@ -294,27 +298,34 @@ def metas_pessoais():
 
                     try:    
 
-                        index_meta = int(input('Selecione a meta que deseja alterar: '))
-                        nova_meta = input('Digite a nova meta: ')
+                        index_meta = int(input('Selecione a meta que deseja alterar: (coloque "-1" para sair)\n'))
+                        if index_meta == -1:
+                            print("Saindo sem alterar metas ")
+                            opção_3 = 's'
+                        else:
+                            nova_meta = input('Digite a nova meta: (coloque "s" para sair)\n')
+    
+                            if nova_meta == 's' or nova_meta == 'S':
+                                print("Saindo sem alterar metas ")
+                                opção_3 = 's'
+                            else:
+                                metas_arquivo[index_meta] = ((f'{index_meta}. ') + nova_meta )
 
-                        metas_arquivo[index_meta] = ((f'{index_meta}. ') + nova_meta )
+                                arquivo_alterar = open('metas.txt','w', encoding='utf-8')
+                                for linha in metas_arquivo:
+                                    linha_formatada = linha.strip()
+                                    arquivo_alterar.write(f'{linha_formatada} \n')
+                                arquivo_alterar.close()
 
-                        arquivo_alterar = open('metas.txt','w')
-                        for linha in metas_arquivo:
-                            linha_formatada = linha.strip()
-                            arquivo_alterar.write(f'{linha_formatada} \n')
-                        arquivo_alterar.close()
+                                print('Meta alterada com sucesso!! Caso queira alterar outra meta digite qualquer letra:  ')
+                                print('Caso queira sair aperte a tecla "s" ')
 
-                        print('Meta alterada com sucesso!! Caso queira alterar outra meta digite qualquer letra:  ')
-                        print('Caso queira sair aperte a tecla "s" ')
+                                opção_3 = input('Selecione uma opção: ')
 
-                        opção_3 = input('Selecione uma opção: ')
-
-                        opção_3.lower()
                     except ValueError:
                         print('Por favor digite um número inteiro')
                     except IndexError:
-                        print('Por favor digite um número contido na li')
+                        print('Por favor digite um número contido na linha')
 
 
             elif escolha == 4:
@@ -325,21 +336,25 @@ def metas_pessoais():
                     for linha in metas_arquivo:
                         print(linha)
                     try:
-                        deletar = int(input('Selecione a meta que você deseja deletar: '))
-                        metas_arquivo.pop(deletar)
+                        deletar = int(input('Selecione a meta que você deseja deletar: (coloque -1 para sair)'))
+                        if deletar == -1:
+                            print("saindo sem deletar metas")
+                            opção_4 = 's'
+                        else:
+                            metas_arquivo.pop(deletar)
 
-                        arquivo_alterar = open('metas.txt','w')
+                            arquivo_alterar = open('metas.txt','w', encoding='utf-8')
 
-                        for indice, linha in enumerate(metas_arquivo):
-                            remover_inice = linha[3:].strip()
-                            arquivo_alterar.write(f'{indice}. {remover_inice} \n') # Isso formata o código com os novos indices
-                        arquivo_alterar.close()
-                        
-                        print('Meta deletada com sucesso!! Caso queira deletar outra meta digite qualquer letra:  ')
-                        print('Caso queira sair aperte a tecla "s" ')
-                        opção_4 = input('Selecione uma opção: ')
+                            for indice, linha in enumerate(metas_arquivo):
+                                Linha_sem_indice = linha[3:].strip()
+                                arquivo_alterar.write(f'{indice}. {Linha_sem_indice} \n') # Isso formata o código com os novos indices
+                            arquivo_alterar.close()
+                            
+                            print('Meta deletada com sucesso!! Caso queira deletar outra meta digite qualquer letra:  ')
+                            print('Caso queira sair aperte a tecla "s" ')
+                            opção_4 = input('Selecione uma opção: ')
 
-                        opção_4.lower()
+                            opção_4.lower()
                     except ValueError:
                         print('Por favor digite um número inteiro')
                     except IndexError:
@@ -353,26 +368,30 @@ def metas_pessoais():
                     for linha in metas_arquivo:
                         print(linha)
                     try:
-                        deletar = int(input('Selecione a meta que você deseja concluir: '))
-                        c = metas_arquivo[deletar]
-                        concluida = c[3:].strip()
-                        metas_arquivo.pop(deletar)
+                        concluir = int(input('Selecione a meta que você deseja concluir: ()'))
+                        if concluir == -1:
+                            print("Coloque '-1' para sair sem concluir metas")
+                            opção_5 = 's'
+                        else:
+                            c = metas_arquivo[concluir]
+                            concluida = c[3:].strip()
+                            metas_arquivo.pop(concluir)
 
-                        arquivo_alterar = open('metas.txt','w')
+                            arquivo_alterar = open('metas.txt','w', encoding='utf-8')
 
-                        for indice, linha in enumerate(metas_arquivo):
-                            remover_inice = linha[3:].strip()
-                            arquivo_alterar.write(f'{indice}. {remover_inice} \n')
-                        arquivo_alterar.close()
+                            for indice, linha in enumerate(metas_arquivo):
+                                Linha_sem_indice = linha[3:].strip() # Isso tira " indeice."
+                                arquivo_alterar.write(f'{indice}. {Linha_sem_indice} \n') # Isso formata o código com os novos indices
+                            arquivo_alterar.close()
 
-                        arquivo = open('metas_concluidas.txt', 'a')
-                        arquivo.write(f'{linha_metas_concluidas}. {concluida}\n')
-                        arquivo.close()
+                            arquivo = open('metas_concluidas.txt', 'a', encoding='utf-8')
+                            arquivo.write(f'{linha_metas_concluidas}. {concluida}\n')
+                            arquivo.close()
 
-                        print('Meta concluida com sucesso!! Caso queira concluir outra meta digite qualquer letra:  ')
-                        print('Caso queira sair aperte a tecla "s" ')
+                            print('Meta concluida com sucesso!! Caso queira concluir outra meta digite qualquer letra:  ')
+                            print('Caso queira sair aperte a tecla "s" ')
 
-                        opção_5 = input('Selecione uma opção: ')
+                            opção_5 = input('Selecione uma opção: ')
                         
                     except:
                         print('Valor inválido')
@@ -387,21 +406,25 @@ def metas_pessoais():
                     for linha in metas_arquivo_concluído:
                         print(linha)
                     try:
-                        deletar_concluido = int(input('Selecione a meta que você deseja deletar: '))
-                        metas_arquivo_concluído.pop(deletar_concluido)
+                        deletar_concluido = int(input('Selecione a meta que você deseja deletar: (Coloque "-1" para sair sem deletar metas)'))
+                        if deletar_concluido == -1:
+                            opção_7 = 's'
+                            print('Saindo sem deletar as metas concluídas')
+                        else:
+                            metas_arquivo_concluído.pop(deletar_concluido)
 
-                        arquivo_alterar = open('metas_concluidas.txt','w')
+                            arquivo_alterar = open('metas_concluidas.txt','w', encoding='utf-8')
 
-                        for indice, linha in enumerate(metas_arquivo_concluído):
-                            remover_inice = linha[3:].strip()
-                            arquivo_alterar.write(f'{indice}. {remover_inice} \n')
-                        arquivo_alterar.close()
-                        
-                        print('Meta deletada com sucesso!! Caso queira deletar outra meta digite qualquer letra:  ')
-                        print('Caso queira sair aperte a tecla "s" ')
-                        opção_7 = input('Selecione uma opção: ')
+                            for indice, linha in enumerate(metas_arquivo_concluído):
+                                Linha_sem_indice = linha[3:].strip()
+                                arquivo_alterar.write(f'{indice}. {Linha_sem_indice} \n')
+                            arquivo_alterar.close()
+                            
+                            print('Meta deletada com sucesso!! Caso queira deletar outra meta digite qualquer letra:  ')
+                            print('Caso queira sair aperte a tecla "s" ')
+                            opção_7 = input('Selecione uma opção: ')
 
-                        opção_7.lower()
+                            opção_7.lower()
                     except ValueError:
                         print('Por favor digite um número inteiro')
                     except IndexError:
@@ -538,7 +561,7 @@ while i == 0:
         elif pergunta == 8:
             metas_pessoais()
         elif pergunta == 9:
-            i+=1
+            break
         else:
             print("Opção inválida. Tente novamente.\n")
         continuacao = input("Voce quer continuar: Digite '1' para parar, todas as outras respostas, o código vai continuar\n")
