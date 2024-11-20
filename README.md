@@ -45,7 +45,9 @@ se for colocado 4: você poderá escolher qual linha você quer atualizar, atual
 
 ser for colocado 5: você poderá escolher se quer filtrar os arquivos por tempo ou distância, colocando 1 ou 2. Depois de forma crescente ou decrescente, colocando 1 ou 2.
 
-![image](https://github.com/user-attachments/assets/13ac3a98-3920-41f9-94da-6ae0ce9ba421)
+![image](https://github.com/user-attachments/assets/98524d62-be73-4df4-8af4-02170d1b1a1e)
+
+
 
 
 
