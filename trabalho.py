@@ -320,11 +320,13 @@ def metas_pessoais():
                 opção_3 = ''
 
                 while opção_3 != 's':
-                    for linha in metas_arquivo:
-                        print(linha)
 
                     try:    
-
+                        arquivo = open('metas.txt','r', encoding='utf-8')
+                        metas_arquivo = arquivo.readlines()
+                        arquivo.close()
+                        for linha in metas_arquivo:
+                            print(linha)
                         index_meta = int(input('Selecione a meta que deseja alterar: (coloque "-1" para sair)\n'))
                         if index_meta == -1:
                             print("Saindo sem alterar metas ")
@@ -360,9 +362,12 @@ def metas_pessoais():
                 opção_4 = ''
 
                 while opção_4 != 's':
-                    for linha in metas_arquivo:
-                        print(linha)
                     try:
+                        arquivo = open('metas.txt','r', encoding='utf-8')
+                        metas_arquivo = arquivo.readlines()
+                        arquivo.close()
+                        for linha in metas_arquivo:
+                            print(linha)
                         deletar = int(input('Selecione a meta que você deseja deletar: (coloque -1 para sair)\n'))
                         if deletar == -1:
                             print("saindo sem deletar metas")
@@ -392,22 +397,35 @@ def metas_pessoais():
                 opção_5 = ''
 
                 while opção_5 != 's':
+                    arquivo = open('metas.txt','r', encoding='utf-8')
+                    metas_arquivo = arquivo.readlines()
+                    arquivo.close()
                     for linha in metas_arquivo:
                         print(linha)
+
+                    arquivo = open('metas_concluidas.txt','r', encoding='utf-8')
+                    metas_arquivo_concluído = arquivo.readlines()
+                    linha_metas_concluidas = len(metas_arquivo_concluído) + 1
+                    arquivo.close()
                     try:
                         concluir = int(input("Selecione a meta que você deseja concluir: (Coloque '-1' para sair)\n"))
                         if concluir == -1:
                             print("Coloque '-1' para sair sem concluir metas")
                             opção_5 = 's'
                         else:
-                            metas_arquivo.pop(deletar - 1)
+                            
+                            linha_concluida = metas_arquivo[concluir - 1]
+                            Linha_sem_indice = linha_concluida[3:].strip()
+            
+                            metas_arquivo.pop(concluir - 1)
 
                             arquivo_alterar = open('metas.txt','w', encoding='utf-8')
 
                             for indice, linha in enumerate(metas_arquivo, start=1):
-                                Linha_sem_indice = linha[3:].strip()
-                                arquivo_alterar.write(f'{indice}. {Linha_sem_indice} \n') # Isso formata o código com os novos indices
+                                Linha_sem_indice_atual = linha[3:].strip()
+                                arquivo_alterar.write(f'{indice}. {Linha_sem_indice_atual} \n') # Isso formata o código com os novos indices
                             arquivo_alterar.close()
+
                             arquivo = open('metas_concluidas.txt', 'a', encoding='utf-8')
                             arquivo.write(f'{linha_metas_concluidas}. {Linha_sem_indice}\n')
                             arquivo.close()
@@ -428,6 +446,10 @@ def metas_pessoais():
             elif escolha == 7:
                 opção_7 = ''
                 while opção_7 != 's':
+                    arquivo = open('metas_concluidas.txt','r', encoding='utf-8')
+                    metas_arquivo_concluído = arquivo.readlines()
+                    arquivo.close()
+
                     for linha in metas_arquivo_concluído:
                         print(linha)
                     try:
