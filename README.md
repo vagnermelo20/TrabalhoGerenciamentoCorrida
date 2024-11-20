@@ -8,6 +8,7 @@ Esse metas pessoais é especial porque nele também há um while com 8 opções:
 # Dentro do while pincipal
 
 Será feito uma pergunta para você digitar um número. Esse número pode ser de 1 a 9, qualquer coisa digitada que não seja isso, será considerado incorreto.
+Sempre que você reponder algo, pode escolher clicar 1 para sair do loop
 
 Se for colocado 1: Você irá adicionar novos dados no sistema. Você será perguntado se quer colocar 't' para Treino ou 'c' para competição (Qualquer outra coisa é inválido), você será perguntado para escrever a distância em quilometros(Pode ser inteiro ou decimal), o tempo em minutos(tem  que ser inteiro), o nome do local, a condição climática no tempo da atividade. Esse dados serão adicionados no arquivo "banco.txt".
 
