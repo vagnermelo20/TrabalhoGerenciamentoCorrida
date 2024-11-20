@@ -20,13 +20,27 @@ def criar_dados(treinoOUcompeticao, data, distancia, tempo, localizacao, condica
         return f"competição: data: {data}, distância percorrida: {distancia_nome}, tempo: {tempo}, localização: {localizacao}, condições climáticas: {condicaoClimatica}\n"
     
 def salvar_no_banco(treinoOUcompeticao, data, distancia, tempo, localizacao, condicaoClimatica, arquivo_nome="banco.txt"):
-    entrada = criar_dados(treinoOUcompeticao, data, distancia, tempo, localizacao, condicaoClimatica)
     try:
+        # Gera os dados formatados para a nova entrada
+        entrada = criar_dados(treinoOUcompeticao, data, distancia, tempo, localizacao, condicaoClimatica)
+
+        # Lê as linhas existentes para determinar o próximo índice
+        try:
+            with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
+                linhas = arquivo.readlines()
+            proximo_indice = len(linhas) + 1
+        except FileNotFoundError:
+            # Caso o arquivo não exista, o índice começa em 1
+            proximo_indice = 1
+
+        # Adiciona a nova entrada ao final do arquivo com o índice
         with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
-            arquivo.write(entrada)
+            arquivo.write(f"{proximo_indice}. {entrada}")
+
     except IOError as e:
         print(f"Erro ao salvar no banco de dados: {e}")
-        return None
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
 
 def obter_dados():
     try:
@@ -101,12 +115,17 @@ def deletar_linha(arquivo_nome="banco.txt", numero_linha=1):
 
         # Reescrever o arquivo sem a linha especificada
         with open(arquivo_nome, "w", encoding="utf-8") as arquivo:
-            arquivo.writelines(linhas)
+            for indice, linha in enumerate(linhas, start=1):
+                arquivo.write(f'{indice}. {linha.split(". ", 1)[1]}')
 
         print(f"Linha {numero_linha} deletada com sucesso.")
 
-    except IOError as erro:
-        print("Erro ao acessar o arquivo:", erro)
+    except FileNotFoundError:
+        print(f"Erro: Arquivo '{arquivo_nome}' não encontrado.")
+    except IndexError:
+        print("Erro: Linha fora do intervalo.")
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
     
 def atualizar_linha(arquivo_nome="banco.txt", numero_linha=1, novo_conteudo = 1):
 
@@ -121,16 +140,21 @@ def atualizar_linha(arquivo_nome="banco.txt", numero_linha=1, novo_conteudo = 1)
             return
 
         # Atualizar a linha desejada (convertendo para índice de lista, subtraindo 1)
-        linhas[numero_linha - 1] = novo_conteudo
+        linhas[numero_linha - 1] = f"{numero_linha}. {novo_conteudo}"
 
         # Reescrever o arquivo com a linha atualizada
         with open(arquivo_nome, "w", encoding="utf-8") as arquivo:
-            arquivo.writelines(linhas)
+            for indice, linha in enumerate(linhas, start=1):
+                arquivo.write(f"{indice}. {linha.split('. ', 1)[1]}")
 
         print(f"Linha {numero_linha} atualizada com sucesso.")
 
-    except IOError as erro:
-        print("Erro ao acessar o arquivo:", erro)
+    except FileNotFoundError:
+        print(f"Erro: Arquivo '{arquivo_nome}' não encontrado.")
+    except IndexError:
+        print("Erro: Linha fora do intervalo.")
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
     
 def calcular_velocidade_media(distancia_km, tempo_min):
     velocidade_media = distancia_km / tempo_min
@@ -499,8 +523,8 @@ def gastoCaloricoTeste(velocidadeMedia, peso, min): #vm é em km/h
     gastoCalorico = velocidadeMedia * peso * min * 0.0175
     return gastoCalorico
 
-i = 0
-while i == 0:
+
+while True:
     try:
         pergunta = int(input("Digite um número: \n1 para registrar dados\n2 para um treino aleátorio\n3 para deletar dados\n4 para atualizar dados\n5 para filtrar os treinos\n6 para fazer um resumo estatístico dos treinos\n7 para ver quantas calórias serão gastas em uma determinada corrida\n8 para ver as metas pessoais\n9 para sair\n"))
         if pergunta == 1:
@@ -566,9 +590,9 @@ while i == 0:
             print("Opção inválida. Tente novamente.\n")
         continuacao = input("Voce quer continuar: Digite '1' para parar, todas as outras respostas, o código vai continuar\n")
         if continuacao == '1':
-            i +=1
+            break
     except ValueError:
         print("Erro: Digite um número válido.\n")
         continuacao = input("Voce quer continuar: Digite '1' para parar, todas as outras respostas, o código vai continuar\n")
         if continuacao == '1':
-            i +=1
+            break
