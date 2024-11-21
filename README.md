@@ -106,4 +106,4 @@ Diretórios usados: O trabalho possui 3 arquivos .txt, 2 arquivos.py, em que o m
 
 # fluxograma
 
-https://miro.com/app/live-embed/uXjVLCX_WY0=/?moveToViewport=-218,1400,3052,1432&embedId=548818123310
+https://miro.com/app/live-embed/uXjVLCZrQ98=/?moveToViewport=1509,27,5369,2519&embedId=367159939196
