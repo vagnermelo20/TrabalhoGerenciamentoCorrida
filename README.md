@@ -20,7 +20,7 @@ Ele consiste de várias funções que serão chamadas dentro de um while(while s
 ![image](https://github.com/user-attachments/assets/75fd5ba1-2619-4d9f-b4d3-e753ab4313cb)
 
 
-Esse metas pessoais é especial porque nele também há um while com 8 opções: Pode visualizar as metas atuais; definir novas metas; alterar metas; deletar metas; concluir metas; checar metas concluídas; deletar metas concluídas; sair do loop.
+Esse metas pessoais é especial porque nele também há um while com 8 opções: Pode visualizar as metas atuais; definir novas metas; alterar metas; deletar metas; concluir metas; deletar metas concluídas; visualizar metas concluídas; sair do loop.
 
 
 ![image](https://github.com/user-attachments/assets/edd26541-adcf-43dd-a165-dd3006d1372c)
@@ -70,9 +70,9 @@ se for colocado 6: Você terá um resumo dos treinos ou competições, que possu
 
 se for colocado 7: Você será perguntado sua velocidade média em km/h, seu peso em kg, quantos minutos voce gastou correndo. Ele dará uma estimativa de quantas calórias você perdeu nessa corrida.
 
-Se for colocado 9: Você irá sair do programa
-
 se for colocado 8: Você irá para as metas pessoais, nelas você pode escolher de 1 a 8
+
+Se for colocado 9: Você irá sair do programa
 
 # dentro das metas pessoais
 Você poderá escolher de 1 a 8
@@ -92,9 +92,9 @@ se escolher 4: Você poderá deletar uma meta: Será escolhido o id de uma meta 
 
 se escolher 5: Você pode concluir uma meta: Será escolhido o id de uma meta e ela será deletada do arquivo 'metas.txt' e adicionada no aruqivo metas_concluidas.txt
 
-se escolher 6: Você poderá visualizar as metas concluídas.
+se escolher 6: Você poderá deletar uma meta: Será escolhido o id de uma meta concluida e ela será deletada do arquivo 'metas_concluidas.txt'
 
-se escolher 7: Você poderá deletar uma meta: Será escolhido o id de uma meta concluida e ela será deletada do arquivo 'metas_concluidas.txt'
+se escolher 7: Você poderá visualizar as metas concluídas.
 
 se escolher 8: Você irá sair do programa
 
