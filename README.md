@@ -23,7 +23,8 @@ Ele consiste de várias funções que serão chamadas dentro de um while(while s
 Esse metas pessoais é especial porque nele também há um while com 8 opções: Pode visualizar as metas atuais; definir novas metas; alterar metas; deletar metas; concluir metas; deletar metas concluídas; visualizar metas concluídas; sair do loop.
 
 
-![image](https://github.com/user-attachments/assets/edd26541-adcf-43dd-a165-dd3006d1372c)
+![image](https://github.com/user-attachments/assets/03f7a11d-8429-468c-9d78-ce25482fae31)
+
 
 
 Todos os dados salvos nos arquivos são salvos em linhas individuais e numerados a partir do número 1. Toda a vez que um dado é deletado, os outros irão continuar na estrutura numerada. ex: 
@@ -78,7 +79,8 @@ Se for colocado 9: Você irá sair do programa
 Você poderá escolher de 1 a 8
 Voce terá as opções de escolher '-1' pra voltar ao menu de metas pessoais a qualquer momento.
 
-![image](https://github.com/user-attachments/assets/5d34bf87-4fcc-4765-b0ed-a115cf71395a)          ![image](https://github.com/user-attachments/assets/a597e5ff-5ba0-4ee6-90b4-9b31f2bbf114)        ![image](https://github.com/user-attachments/assets/01de379a-a9b4-4846-8426-227465b9c64d)
+![image](https://github.com/user-attachments/assets/02f0c2e8-eaba-49e8-a78c-f73e21a7823a)
+          ![image](https://github.com/user-attachments/assets/09725ee5-ea2f-445e-8a95-5d12632ce61f)
 
 
 
