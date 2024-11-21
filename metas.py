@@ -81,12 +81,12 @@ def metas_pessoais():
         # Opção 2: Definir novas metas
         elif escolha == 2:
             opção_2 = ''
-            while opção_2 != 's':
+            while opção_2 != '-1':
                 try:
-                    nova_meta = input('Defina uma nova meta pessoal: (Coloque "s" para sair)\n').lower()
-                    if nova_meta == 's':
+                    nova_meta = input('Defina uma nova meta pessoal: (Coloque "-1" para sair)\n')
+                    if nova_meta == '-1':
                         print("Saindo sem definir metas.")
-                        opção_2 = 's'
+                        opção_2 = '-1'
                     else:
                         try:
                             # Conta as linhas existentes para determinar o índice
@@ -109,7 +109,7 @@ def metas_pessoais():
                             print("Erro ao gravar no arquivo 'metas.txt'.")
                             break
 
-                        print('Nova meta definida! Caso queira adicionar outra, digite qualquer letra. Para sair, digite "s".')
+                        print('Nova meta definida! Caso queira adicionar outra, digite qualquer letra. Para sair, digite "-1".')
                         opção_2 = input('Selecione uma opção: \n')
                 except Exception as e:
                     print(f"Erro inesperado ao definir nova meta: {e}")
@@ -117,20 +117,20 @@ def metas_pessoais():
         # Opção 3: Alterar uma meta
         elif escolha == 3:
             opção_3 = ''
-            while opção_3 != 's':
+            while opção_3 != '-1':
                 try:
                     for linha in metas_arquivo:
                         print(linha)
                     index_meta = int(input('Selecione a meta que deseja alterar: (coloque "-1" para sair)\n'))
                     if index_meta == -1:
                         print("Saindo sem alterar metas.")
-                        opção_3 = 's'
+                        opção_3 = '-1'
                     else:
-                        nova_meta = input('Digite a nova meta: (coloque "s" para sair)\n')
+                        nova_meta = input('Digite a nova meta: (coloque "-1" para sair)\n')
                         
-                        if nova_meta == 's':
+                        if nova_meta == '-1':
                             print("Saindo sem alterar metas.")
-                            opção_3 = 's'
+                            opção_3 = '-1'
                         else:
                             # Atualiza a meta selecionada
                             metas_arquivo[index_meta - 1] = f'{index_meta}. {nova_meta}'
@@ -142,7 +142,7 @@ def metas_pessoais():
                             except IOError:
                                 print("Erro ao atualizar o arquivo 'metas.txt'.")
                                 break
-                            print('Meta alterada com sucesso! Para alterar outra, digite qualquer letra. Para sair, digite "s".')
+                            print('Meta alterada com sucesso! Para alterar outra, digite qualquer letra. Para sair, digite "-1".')
                             opção_3 = input('Selecione uma opção: \n')
                 except ValueError:
                     print('Erro: Por favor, digite um número inteiro.')
@@ -154,14 +154,14 @@ def metas_pessoais():
                 # Opção 4: Deletar uma meta
         elif escolha == 4:
             opção_4 = ''
-            while opção_4 != 's':
+            while opção_4 != '-1':
                 try:
                     for linha in metas_arquivo:
                         print(linha)
                     deletar = int(input('Selecione a meta que você deseja deletar: (coloque -1 para sair)\n'))
                     if deletar == -1:
                         print("Saindo sem deletar metas.")
-                        opção_4 = 's'
+                        opção_4 = '-1'
                     else:
                         # Remove a meta escolhida da lista
                         metas_arquivo.pop(deletar - 1)
@@ -170,12 +170,12 @@ def metas_pessoais():
                             arquivo_alterar = open('metas.txt', 'w', encoding='utf-8')
                             for indice, linha in enumerate(metas_arquivo, start=1):
                                 Linha_sem_indice = linha[3:].strip() # Isso tira o indice aterior, as 3 primeiras coisas da linha e pemiti botar um indice novo
-                                arquivo_alterar.write(f'{indice}. {Linha_sem_indice} \n')
+                                arquivo_alterar.write(f'{indice}. {Linha_sem_indice} \n') #Resccreve o código com o indice e o resto da linha
                             arquivo_alterar.close()
                         except IOError:
                             print("Erro ao atualizar o arquivo 'metas.txt'.")
                             break
-                        print('Meta deletada com sucesso! Para deletar outra, digite qualquer letra. Para sair, digite "s".')
+                        print('Meta deletada com sucesso! Para deletar outra, digite qualquer letra. Para sair, digite "-1".')
                         opção_4 = input('Selecione uma opção: \n')
                 except ValueError:
                     print('Erro: Por favor, digite um número inteiro.')
@@ -187,14 +187,14 @@ def metas_pessoais():
         # Opção 5: Concluir uma meta
         elif escolha == 5:
             opção_5 = ''
-            while opção_5 != 's':
+            while opção_5 != '-1':
                 try:
                     for linha in metas_arquivo:
                         print(linha)
                     concluir = int(input("Selecione a meta que você deseja concluir: (Coloque '-1' para sair)\n"))
                     if concluir == -1:
                         print("Saindo sem concluir metas.")
-                        opção_5 = 's'
+                        opção_5 = '-1'
                     else:
                         # Move a meta para o arquivo de metas concluídas
                         linha_concluida = metas_arquivo[concluir - 1]
@@ -218,7 +218,7 @@ def metas_pessoais():
                         except IOError:
                             print("Erro ao salvar no arquivo 'metas_concluidas.txt'.")
                             break
-                        print('Meta concluída com sucesso! Para concluir outra, digite qualquer letra. Para sair, digite "s".')
+                        print('Meta concluída com sucesso! Para concluir outra, digite qualquer letra. Para sair, digite "-1".')
                         opção_5 = input('Selecione uma opção: ')
                 except ValueError:
                     print("Por favor, insira um número inteiro válido.")
@@ -245,13 +245,13 @@ def metas_pessoais():
         elif escolha == 7:
             try:
                 opção_7 = ''
-                while opção_7 != 's':
+                while opção_7 != '-1':
                     try:
                         for linha in metas_arquivo_concluído:
                             print(linha)
                         deletar_concluido = int(input('Selecione a meta que você deseja deletar: (Coloque "-1" para sair)\n'))
                         if deletar_concluido == -1:
-                            opção_7 = 's'
+                            opção_7 = '-1'
                             print('Saindo sem deletar as metas concluídas.')
                         else:
                             metas_arquivo_concluído.pop(deletar_concluido - 1)
@@ -265,7 +265,7 @@ def metas_pessoais():
                             except IOError:
                                 print("Erro ao salvar no arquivo 'metas_concluidas.txt'.")
                                 break
-                            print('Meta deletada com sucesso! Para deletar outra, digite qualquer letra. Para sair, digite "s".')
+                            print('Meta deletada com sucesso! Para deletar outra, digite qualquer letra. Para sair, digite "-1".')
                             opção_7 = input('Selecione uma opção: ')
                     except ValueError:
                         print("Por favor, insira um número inteiro válido.")

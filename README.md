@@ -76,7 +76,7 @@ Se for colocado 9: Você irá sair do programa
 
 # dentro das metas pessoais
 Você poderá escolher de 1 a 8
-Voce terá as opções de escolher ou o 's' ou o '-1' pra sair do loop, pois a escolhas 2, 3, 4, 5, 7 são loops
+Voce terá as opções de escolher '-1' pra voltar ao menu de metas pessoais a qualquer momento.
 
 ![image](https://github.com/user-attachments/assets/5d34bf87-4fcc-4765-b0ed-a115cf71395a)          ![image](https://github.com/user-attachments/assets/a597e5ff-5ba0-4ee6-90b4-9b31f2bbf114)        ![image](https://github.com/user-attachments/assets/01de379a-a9b4-4846-8426-227465b9c64d)
 
@@ -106,4 +106,4 @@ Diretórios usados: O trabalho possui 3 arquivos .txt, 2 arquivos.py, em que o m
 
 # fluxograma
 
-https://miro.com/app/live-embed/uXjVLCZrQ98=/?moveToViewport=1509,27,5369,2519&embedId=367159939196
+https://miro.com/app/live-embed/uXjVLCe-M4c=/?moveToViewport=5015,-16,2040,957&embedId=88151455188
